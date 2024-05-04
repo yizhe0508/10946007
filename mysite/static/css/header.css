@@ -1,0 +1,47 @@
+.container-fluid{
+    width: 80%;
+}
+
+.navbar {
+    background-color: #fff;
+    /* 背景顏色 */
+    padding: 10px;
+    /* 上下左右的內邊距 */
+}
+
+.navbar-brand {
+    font-size: 24px;
+    /* 品牌字體大小 */
+}
+
+.navbar-links {
+    display: flex;
+    /* 水平排列連結 */
+}
+
+.navbar-links .nav-link {
+    margin-right: 48px;
+    /* 調整連結之間的間距 */
+    color: #000;
+    /* 文字顏色 */
+    text-decoration: none;
+    /* 移除連結的下劃線 */
+}
+
+.navbar-links .nav-link:hover {
+    color: #007bff;
+    /* 滑鼠懸停時的文字顏色 */
+}
+
+.divider {
+    background-color: #000;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    position: relative;
+    height: 0.5px;
+    width: 100%;
+    opacity: 0.5; 
+    /* 設置透明度為 0.5 */
+    overflow: visible;
+
+}

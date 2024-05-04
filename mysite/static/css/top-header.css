@@ -1,0 +1,48 @@
+.top-header,
+.top-header * {
+    box-sizing: border-box;
+}
+
+.top-header {
+    background: var(--button, #000000);
+    height: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.frame-746 {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 228px;
+    position: absolute;
+    left: calc(50% - 114px);
+    top: 12px;
+}
+
+.frame-555 {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 228px;
+    position: relative;
+}
+
+.hello{
+    color: var(--text, #fafafa);
+    text-align: left;
+    font-family: var(--title-14px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-14px-regular-font-size, 14px);
+    line-height: var(--title-14px-regular-line-height, 21px);
+    font-weight: var(--title-14px-regular-font-weight, 400);
+    position: relative;
+    width: 474px;
+    height: 18px;
+}
