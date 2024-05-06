@@ -1,11 +1,41 @@
 <!-- index.html -->
 {% extends 'base.html' %}
-
-{% block title %}首頁{% endblock %}
+{% load static %}
+{% block title %}虛擬寶物交換網{% endblock %}
 
 {% block content %}
-<div class="main-content">
-    <h2>歡迎來到我的網站</h2>
-    <p>這是一個簡單的首頁，你可以根據需要添加更多內容。</p>
+<div class="search-container">
+    <div class="search-header">
+        <div class="search-icon-container">
+            <div class="search-icon">
+                <div class="search-indicator"></div>
+            </div>
+            <div class="search-label">搜尋物品</div>
+        </div>
+    </div>
+    <div class="search-options">
+        <div class="search-option">
+            <select class="search-option-select" id="gameSelect">
+                <option class="search-option-gamelabel" value="">選擇遊戲</option>
+                <option value="game1">遊戲1</option>
+                <option value="game2">遊戲2</option>
+                <option value="game3">遊戲3</option>
+            </select>
+        </div>
+        <div class="search-option">
+            <select class="search-option-select" id="serverSelect">
+                <div class="search-option-serverlabel"><option value="">選擇伺服器</option></div>
+                <option value="server1">伺服器1</option>
+                <option value="server2">伺服器2</option>
+                <option value="server3">伺服器3</option>
+            </select>
+        </div>
+        <div class="search-option">
+            <input type="text" class="search-option-input" id="itemNameInput" placeholder="輸入物品名稱">
+            <button class="search-button" onclick="search()"><img class="search-option-icon"
+                    src="/static/images/search-icon.png" /></button>
+        </div>
+    </div>
 </div>
+<div class="search-divider"></div>
 {% endblock %}

@@ -1,0 +1,135 @@
+.search-container,
+.search-container * {
+    box-sizing: border-box;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    gap: 250px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    margin-left: 10%;
+    margin-top: 70px;
+}
+
+.search-header {
+    display: flex;
+    flex-direction: row;
+    gap: 250px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+
+
+.search-icon-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.search-icon {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.search-indicator {
+    background: var(--secondary-2, #df2648);
+    border-radius: 4px;
+    width: 20px;
+    height: 40px;
+    position: relative;
+}
+
+
+
+.search-label {
+    color: var(--secondary-2, #df2648);
+    text-align: left;
+    font-family: var(--title-16px-semibold-font-family, "Poppins-SemiBold", sans-serif);
+    font-size: var(--title-16px-semibold-font-size, 16px);
+    line-height: var(--title-16px-semibold-line-height, 20px);
+    font-weight: var(--title-16px-semibold-font-weight, 600);
+    position: relative;
+}
+
+.search-options {
+    padding: 50px 0px 50px 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 486px;
+    position: relative;
+}
+
+.search-option {
+    background: var(--secondary, #f5f5f5);
+    border-radius: 4px;
+    padding: 7px 12px 7px 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* 將下拉圖示修改為自定義的圖片 */
+.search-option-select {
+    border: none;
+    background: var(--secondary, #f5f5f5);
+    /* 隱藏原始的下拉圖示 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* 添加自定義的圖片 */
+    background-image: url("/static/images/dropdown-icon.png");
+    background-repeat: no-repeat;
+    background-position: right center;
+    /* 添加一些 padding，使得文字不會和圖片重疊 */
+    padding-right: 34px;
+
+}
+
+.search-option-input {
+    border: none;
+    background: var(--secondary, #f5f5f5);
+    position: relative;
+    padding-right: 34px;
+    width: 170px;
+    height: 24px;
+}
+
+.search-button {
+    border: none;
+}
+
+.search-divider {
+    background-color: #000;
+    position: relative;
+    margin-top: 11px;
+    margin-bottom: 51px;
+    height: 0.5px;
+    width: 80%;
+    left: 10%;
+    opacity: 0.3;
+    /* 設置透明度為 0.5 */
+    overflow: visible;
+}
