@@ -4,38 +4,278 @@
 {% block title %}虛擬寶物交換網{% endblock %}
 
 {% block content %}
-<div class="search-container">
-    <div class="search-header">
-        <div class="search-icon-container">
-            <div class="search-icon">
-                <div class="search-indicator"></div>
+<div class="main-container">
+    <div class="search-container">
+        <div class="search-header">
+            <div class="search-icon-container">
+                <div class="search-icon">
+                    <div class="search-indicator"></div>
+                </div>
+                <div class="search-label">搜尋物品</div>
             </div>
-            <div class="search-label">搜尋物品</div>
+        </div>
+        <div class="search-options">
+            <div class="search-option">
+                <select class="search-option-select" id="gameSelect">
+                    <option class="search-option-gamelabel" value="">選擇遊戲</option>
+                    <option value="game1">遊戲1</option>
+                    <option value="game2">遊戲2</option>
+                    <option value="game3">遊戲3</option>
+                </select>
+            </div>
+            <div class="search-option">
+                <select class="search-option-select" id="serverSelect">
+                    <option value="">選擇伺服器</option>
+                    <option value="server1">伺服器1</option>
+                    <option value="server2">伺服器2</option>
+                    <option value="server3">伺服器3</option>
+                </select>
+            </div>
+            <div class="search-option">
+                <input type="text" class="search-option-input" id="itemNameInput" placeholder="輸入物品名稱">
+                <button class="search-button" onclick="search()"><img class="search-option-icon"
+                        src="/static/images/search-icon.png" /></button>
+            </div>
         </div>
     </div>
-    <div class="search-options">
-        <div class="search-option">
-            <select class="search-option-select" id="gameSelect">
-                <option class="search-option-gamelabel" value="">選擇遊戲</option>
-                <option value="game1">遊戲1</option>
-                <option value="game2">遊戲2</option>
-                <option value="game3">遊戲3</option>
-            </select>
+    <div class="search-divider"></div>
+
+    <div class="swap-container">
+        <div class="swap-header">
+            <div class="swap-icon-container">
+                <div class="swap-icon">
+                    <div class="swap-indicator"></div>
+                </div>
+                <div class="swap-label">交換物品</div>
+            </div>
         </div>
-        <div class="search-option">
-            <select class="search-option-select" id="serverSelect">
-                <div class="search-option-serverlabel"><option value="">選擇伺服器</option></div>
-                <option value="server1">伺服器1</option>
-                <option value="server2">伺服器2</option>
-                <option value="server3">伺服器3</option>
-            </select>
+        <!-- 第一個物品 -->
+        <div class="swaplist-container">
+            <div class="item-image-container">
+                <div class="item-view-icon">
+                    <img class="item-icon" src="/static/images/eye.png" />
+                </div>
+                <div class="item-image-frame">
+                    <img class="item-image" src="/static/images/item.png" />
+                </div>
+            </div>
+            <div class="item-details-container">
+                <div class="game-name">
+                    <div class="game-name-label">遊戲名稱：</div>
+                    <div class="game-name-content">XXX</div>
+                </div>
+                <div class="item-name">
+                    <div class="item-name-label">物品名稱：</div>
+                    <div class="item-name-content">XXXX</div>
+                </div>
+                <div class="item-description">
+                    <div class="item-description-label">物品描述：</div>
+                    <div class="item-description-content">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    </div>
+                </div>
+                <div class="arrow-icon">
+                    <img class="icons-arrow-down" src="/static/images/icons_arrow-down.png">
+                    <img class="icons-arrow-up" src="/static/images/icons_arrow-up.png">
+                </div>
+                <div class="item-requirements">
+                    <div class="item-requirements-label">需求物品：</div>
+                    <div class="item-requirements-content">
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+                </div>
+                <div class="swap-button-container">
+                    <button class="swap-button">
+                        <div class="swap-button-label">我要交換</div>
+                    </button>
+                </div>
+            </div>
+            <div class="swap-info-container">
+                <div class="separator-line"></div>
+                <div class="swap-time-location-container">
+                    <div class="swap-time">
+                        交換時間
+                        <br />
+                        2024/01/01
+                        <br />
+                        20時00分
+                        <br />
+                    </div>
+                    <div class="swap-location">
+                        交換地點
+                        <br />
+                        XXXX
+                    </div>
+                </div>
+                <div class="swap-server-character-container">
+                    <div class="swap-server">
+                        伺服器
+                        <br />
+                        XXXX
+                    </div>
+                    <div class="swap-character">
+                        交換角色
+                        <br />
+                        XXX
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="search-option">
-            <input type="text" class="search-option-input" id="itemNameInput" placeholder="輸入物品名稱">
-            <button class="search-button" onclick="search()"><img class="search-option-icon"
-                    src="/static/images/search-icon.png" /></button>
+        <div class="swap-divider"></div>
+
+        <!-- 第二個物品 -->
+        <div class="swaplist-container">
+            <div class="item-image-container">
+                <div class="item-view-icon">
+                    <img class="item-icon" src="/static/images/eye.png" />
+                </div>
+                <div class="item-image-frame">
+                    <img class="item-image" src="/static/images/item.png" />
+                </div>
+            </div>
+            <div class="item-details-container">
+                <div class="game-name">
+                    <div class="game-name-label">遊戲名稱：</div>
+                    <div class="game-name-content">XXX</div>
+                </div>
+                <div class="item-name">
+                    <div class="item-name-label">物品名稱：</div>
+                    <div class="item-name-content">XXXX</div>
+                </div>
+                <div class="item-description">
+                    <div class="item-description-label">物品描述：</div>
+                    <div class="item-description-content">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    </div>
+                </div>
+                <div class="arrow-icon">
+                    <img class="icons-arrow-down" src="/static/images/icons_arrow-down.png">
+                    <img class="icons-arrow-up" src="/static/images/icons_arrow-up.png">
+                </div>
+                <div class="item-requirements">
+                    <div class="item-requirements-label">需求物品：</div>
+                    <div class="item-requirements-content">
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+                </div>
+                <div class="swap-button-container">
+                    <button class="swap-button">
+                        <div class="swap-button-label">我要交換</div>
+                    </button>
+                </div>
+            </div>
+            <div class="swap-info-container">
+                <div class="separator-line"></div>
+                <div class="swap-time-location-container">
+                    <div class="swap-time">
+                        交換時間
+                        <br />
+                        2024/01/01
+                        <br />
+                        20時00分
+                        <br />
+                    </div>
+                    <div class="swap-location">
+                        交換地點
+                        <br />
+                        XXXX
+                    </div>
+                </div>
+                <div class="swap-server-character-container">
+                    <div class="swap-server">
+                        伺服器
+                        <br />
+                        XXXX
+                    </div>
+                    <div class="swap-character">
+                        交換角色
+                        <br />
+                        XXX
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swap-divider"></div>
+
+        <!-- 第三個物品 -->
+        <div class="swaplist-container">
+            <div class="item-image-container">
+                <div class="item-view-icon">
+                    <img class="item-icon" src="/static/images/eye.png" />
+                </div>
+                <div class="item-image-frame">
+                    <img class="item-image" src="/static/images/item.png" />
+                </div>
+            </div>
+            <div class="item-details-container">
+                <div class="game-name">
+                    <div class="game-name-label">遊戲名稱：</div>
+                    <div class="game-name-content">XXX</div>
+                </div>
+                <div class="item-name">
+                    <div class="item-name-label">物品名稱：</div>
+                    <div class="item-name-content">XXXX</div>
+                </div>
+                <div class="item-description">
+                    <div class="item-description-label">物品描述：</div>
+                    <div class="item-description-content">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    </div>
+                </div>
+                <div class="arrow-icon">
+                    <img class="icons-arrow-down" src="/static/images/icons_arrow-down.png">
+                    <img class="icons-arrow-up" src="/static/images/icons_arrow-up.png">
+                </div>
+                <div class="item-requirements">
+                    <div class="item-requirements-label">需求物品：</div>
+                    <div class="item-requirements-content">
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+                </div>
+                <div class="swap-button-container">
+                    <button class="swap-button">
+                        <div class="swap-button-label">我要交換</div>
+                    </button>
+                </div>
+            </div>
+            <div class="swap-info-container">
+                <div class="separator-line"></div>
+                <div class="swap-time-location-container">
+                    <div class="swap-time">
+                        交換時間
+                        <br />
+                        2024/01/01
+                        <br />
+                        20時00分
+                        <br />
+                    </div>
+                    <div class="swap-location">
+                        交換地點
+                        <br />
+                        XXXX
+                    </div>
+                </div>
+                <div class="swap-server-character-container">
+                    <div class="swap-server">
+                        伺服器
+                        <br />
+                        XXXX
+                    </div>
+                    <div class="swap-character">
+                        交換角色
+                        <br />
+                        XXX
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swap-divider"></div>
+
+        <!-- 換頁 -->
+        <div class="pagination">
+            <div class="current-page">目前在第 <span id="page-number">1</span> 頁</div>
+            <div class="change-page">
+                <a href="#" class="pagination-button">上一頁</a>
+                <a href="#" class="pagination-button">1</a>
+                <a href="#" class="pagination-button">2</a>
+                <a href="#" class="pagination-button">3</a>
+                <a href="#" class="pagination-button">下一頁</a>
+            </div>
         </div>
     </div>
 </div>
-<div class="search-divider"></div>
 {% endblock %}

@@ -1,3 +1,8 @@
+.main-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
 .search-container,
 .search-container * {
     box-sizing: border-box;
@@ -23,8 +28,6 @@
     flex-shrink: 0;
     position: relative;
 }
-
-
 
 .search-icon-container {
     display: flex;
@@ -53,8 +56,6 @@
     height: 40px;
     position: relative;
 }
-
-
 
 .search-label {
     color: var(--secondary-2, #df2648);
@@ -130,6 +131,448 @@
     width: 80%;
     left: 10%;
     opacity: 0.3;
-    /* 設置透明度為 0.5 */
+    /* 設置透明度為 0.3 */
     overflow: visible;
+}
+
+/*------swap header CSS----------------- */
+.swap-container,
+.swap-container * {
+    box-sizing: border-box;
+
+}
+
+.swap-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    margin-left: 10%;
+    margin-top: 70px;
+}
+
+.swap-header {
+    width: 80%;
+    height: 103px;
+    display: flex;
+    flex-direction: row;
+    gap: 250px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.swap-icon-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.swap-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.swap-indicator {
+    background: var(--secondary-2, #df2648);
+    border-radius: 4px;
+    width: 20px;
+    height: 40px;
+    position: relative;
+}
+
+.swap-label {
+    color: var(--secondary-2, #df2648);
+    text-align: left;
+    font-family: var(--title-16px-semibold-font-family, "Poppins-SemiBold", sans-serif);
+    font-size: var(--title-16px-semibold-font-size, 16px);
+    line-height: var(--title-16px-semibold-line-height, 20px);
+    font-weight: var(--title-16px-semibold-font-weight, 600);
+    position: relative;
+}
+
+/*------------swaplist CSS------------------*/
+.swaplist-container,
+.swaplist-container * {
+    box-sizing: border-box;
+}
+
+.swaplist-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 300px;
+    width: 900px;
+    position: relative;
+}
+
+.item-image-container {
+    background: var(--secondary, #f5f5f5);
+    border-radius: 4px;
+    flex-shrink: 0;
+    width: 270px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.item-view-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+
+.item-image-frame {
+    width: 190px;
+    height: 180px;
+    position: absolute;
+    align-items: center;
+    left: calc(50% - 95px);
+    top: calc(50% - 90px);
+    overflow: hidden;
+}
+
+.item-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 400px;
+    position: relative;
+}
+
+.game-name {
+    display: flex;
+    flex-direction: row;
+    color: #000000;
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 400px;
+    height: 24px;
+}
+
+.item-name {
+    display: flex;
+    flex-direction: row;
+    color: #000000;
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 400px;
+}
+
+.item-description {
+    display: flex;
+    flex-direction: row;
+    color: #000000;
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    width: 400px;
+    height: auto;
+    position: relative;
+}
+
+.item-description-label {
+    width: 80px;
+    position: absolute;
+}
+
+.item-description-content {
+    left: 80px;
+    position: relative;
+    word-wrap: break-word;
+    max-height: 48px;
+    overflow: auto;
+}
+
+.arrow-icon {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 400px;
+    height: 24px;
+    position: relative;
+}
+
+.item-requirements {
+    display: flex;
+    flex-direction: row;
+    color: var(--secondary-2, #df2648);
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 400px;
+    height: 96px;
+}
+
+.item-requirements-label {
+    width: 80px;
+    position: absolute;
+}
+
+.item-requirements-content {
+    left: 80px;
+    position: relative;
+    word-wrap: break-word;
+    max-height: 96px;
+    overflow: auto;
+}
+
+.swap-button-container {
+    padding: 0px 14px 0px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 620px;
+    position: relative;
+}
+
+.swap-button {
+    border: none;
+    background: var(--button1, #52d880);
+    border-radius: 4px;
+    padding: 10px 48px 10px 48px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.swap-button:hover {
+    background: var(--hover-button1, #a9ebbf);
+    border-radius: 4px;
+    padding: 10px 48px 10px 48px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.swap-button-label {
+    color: var(--text, #fafafa);
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+}
+
+.swap-info-container {
+    padding: 0px 2px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.separator-line {
+    margin-left: 85px;
+    background-color: #000;
+    opacity: 0.3;
+    flex-shrink: 0;
+    width: 0.5px;
+    height: 200px;
+    position: relative;
+    transform: translate(0px, 0px);
+    overflow: visible;
+}
+
+.swap-time-location-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.swap-time {
+    color: #000000;
+    text-align: center;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 98px;
+    height: 72px;
+}
+
+.swap-location {
+    color: #000000;
+    text-align: center;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 98px;
+    height: 48px;
+}
+
+.swap-server-character-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.swap-server {
+    color: #000000;
+    text-align: center;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 98px;
+    height: 72px;
+}
+
+.swap-character {
+    color: #000000;
+    text-align: center;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+    width: 98px;
+    height: 48px;
+}
+
+.swap-divider {
+    width: 90%;
+    height: 0.5px;
+    background-color: #000;
+    opacity: 0.3;
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/*------pagination CSS----------------- */
+.pagination,
+.pagination * {
+    box-sizing: border-box;
+}
+
+.pagination {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+}
+
+.current-page {
+    padding: 10px 0px 10px 0px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    color: var(--text2, #000000);
+    text-align: center;
+    font-family: var(--heading-24px-semibold-font-family,
+            "Inter-SemiBold",
+            sans-serif);
+    font-size: var(--heading-24px-semibold-font-size, 24px);
+    line-height: var(--heading-24px-semibold-line-height, 24px);
+    letter-spacing: var(--heading-24px-semibold-letter-spacing, 0.03em);
+    font-weight: var(--heading-24px-semibold-font-weight, 600);
+
+}
+
+.change-page {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.pagination-button {
+    text-decoration: none;
+    color: var(--text, #fafafa);
+    background: var(--button2, #315cea);
+    border-radius: 4px;
+    padding: 4px 12px 4px 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.pagination-button:hover {
+    background: var(--hover-button2, #a0bce0);
+    border-radius: 4px;
+    padding: 6px 16px 6px 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
