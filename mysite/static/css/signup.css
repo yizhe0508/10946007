@@ -1,0 +1,280 @@
+.registration-container,
+.registration-container * {
+    box-sizing: border-box;
+}
+
+.registration-container {
+    width: 90%;
+    margin-top: 36px;
+    margin-bottom: 84px;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.side-image-container {
+    background: #012437;
+    border-radius: 0px 4px 4px 0px;
+    flex-shrink: 0;
+    width: 600px;
+    height: 550px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.side-image {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    object-fit: cover;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: absolute;
+    top: 48px;
+    right: 20%;
+}
+
+.registration-header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.registration-title {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--heading-36px-medium-font-family,
+            "Inter-Medium",
+            sans-serif);
+    font-size: var(--heading-36px-medium-font-size, 36px);
+    line-height: var(--heading-36px-medium-line-height, 30px);
+    letter-spacing: var(--heading-36px-medium-letter-spacing, 0.04em);
+    font-weight: var(--heading-36px-medium-font-weight, 500);
+    position: relative;
+}
+
+.registration-subtitle {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+}
+
+.registration-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.registration-field {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.registration-field::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    /* 調整底線與文字的距離 */
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.5);
+}
+
+.field-input {
+    height: 32px;
+    width: 370px;
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+}
+
+.registration-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+    height: 188.5px;
+    width: 371px;
+}
+
+.register-button {
+    background: var(--button2, #315cea);
+    border-radius: 4px;
+    padding: 16px 122px 16px 122px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+}
+
+.signup-button-label {
+    color: var(--text, #fafafa);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    position: relative;
+}
+
+.alternative-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.google-sign-up {
+    border-radius: 4px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.4);
+    border-width: 1px;
+    padding: 16px 86px 16px 86px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.google-sign-up-content {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.google-icon {
+    width: 24px;
+    height: 24px;
+    position: relative;
+}
+
+.google-sign-up-text {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+}
+
+.login-prompt {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.login-question {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+}
+
+.login-link-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.login-link {
+    color: var(--text2, #FF5C00);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+    text-decoration: none;
+
+}
+
+.login-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    /* 調整底線與文字的距離 */
+    border-bottom: solid 0.5px rgba(0, 0, 0, 0.5);
+}

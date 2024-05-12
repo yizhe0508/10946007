@@ -1,0 +1,46 @@
+<!-- signup.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="registration-container">
+    <div class="side-image-container">
+        <img class="side-image" src="/static/images/sideimg.png" />
+    </div>
+    <div class="registration-form">
+        <div class="registration-header">
+            <div class="registration-title">註冊一個新的帳號</div>
+            <div class="registration-subtitle">請輸入以下欄位</div>
+        </div>
+        <div class="registration-fields">
+            <div class="registration-field">
+                <input type="text" class="field-input" name="name" placeholder="姓名" />
+            </div>
+            <div class="registration-field">
+                <input type="text" class="field-input" name="email" placeholder="信箱" />
+            </div>
+            <div class="registration-field">
+                <input type="text" class="field-input" name="password" placeholder="密碼" />
+            </div>
+        </div>
+        <div class="registration-actions">
+            <button class="register-button">
+                <div class="signup-button-label">註冊帳號</div>
+            </button>
+            <div class="alternative-actions">
+                <button class="google-sign-up">
+                    <div class="google-sign-up-content">
+                        <img class="google-icon" src="/static/images/icon-google.png" />
+                        <div class="google-sign-up-text">Sign up with Google</div>
+                    </div>
+                </button>
+                <div class="login-prompt">
+                    <div class="login-question">已經有帳號？</div>
+                    <div class="login-link-container">
+                        <a href="#" class="login-link">登入</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
