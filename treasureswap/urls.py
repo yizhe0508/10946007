@@ -23,4 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('add_swap/', views.add_swap, name='add_swap'),
+    path('404/', views.error_404, name='error_404'),
 ]

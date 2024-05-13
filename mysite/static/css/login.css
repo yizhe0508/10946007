@@ -1,15 +1,15 @@
-.registration-container,
-.registration-container * {
+.login-container,
+.login-container * {
     box-sizing: border-box;
 }
 
-.registration-container {
+.login-container {
     width: 90%;
     margin-top: 36px;
     margin-bottom: 84px;
     display: flex;
     flex-direction: row;
-    gap: 150px;
+    gap: 129px;
     align-items: center;
     justify-content: flex-start;
     position: relative;
@@ -35,7 +35,7 @@
     object-fit: cover;
 }
 
-.registration-form {
+.login-form {
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -45,7 +45,7 @@
     right: 20%;
 }
 
-.registration-header {
+.login-header {
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -56,7 +56,7 @@
     position: relative;
 }
 
-.registration-title {
+.login-title {
     color: var(--text2, #000000);
     text-align: left;
     font-family: var(--heading-36px-medium-font-family,
@@ -69,7 +69,7 @@
     position: relative;
 }
 
-.registration-subtitle {
+.login-subtitle {
     color: var(--text2, #000000);
     text-align: left;
     font-family: var(--title-16px-regular-font-family,
@@ -81,17 +81,17 @@
     position: relative;
 }
 
-.registration-fields {
+.login-fields {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 40px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
     position: relative;
 }
 
-.registration-field {
+.login-field {
     display: flex;
     flex-direction: row;
     gap: 16px;
@@ -101,7 +101,7 @@
     position: relative;
 }
 
-.registration-field::after {
+.login-field::after {
     content: "";
     position: absolute;
     left: 0;
@@ -129,22 +129,20 @@
     border: none;
 }
 
-.registration-actions {
+.login-actions {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: row;
+    gap: 87px;
     align-items: center;
     justify-content: flex-start;
     flex-shrink: 0;
     position: relative;
-    height: 188.5px;
-    width: 371px;
 }
 
-.register-button {
+.login-button {
     background: var(--button2, #315cea);
     border-radius: 4px;
-    padding: 16px 122px 16px 122px;
+    padding: 16px 48px 16px 48px;
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -155,7 +153,7 @@
     border: none;
 }
 
-.signup-button-label {
+.login-button-label {
     color: var(--text, #fafafa);
     text-align: left;
     font-family: var(--title-16px-regular-font-family,
@@ -167,94 +165,8 @@
     position: relative;
 }
 
-.alternative-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.google-sign-up {
-    border-radius: 4px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.4);
-    border-width: 1px;
-    padding: 16px 86px 16px 86px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.google-sign-up-content {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.google-icon {
-    width: 24px;
-    height: 24px;
-    position: relative;
-}
-
-.google-sign-up-text {
-    color: var(--text2, #000000);
-    text-align: left;
-    font-family: var(--title-16px-regular-font-family,
-            "Poppins-Regular",
-            sans-serif);
-    font-size: var(--title-16px-regular-font-size, 16px);
-    line-height: var(--title-16px-regular-line-height, 24px);
-    font-weight: var(--title-16px-regular-font-weight, 400);
-    position: relative;
-}
-
-.login-prompt {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    margin-top: 16px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.login-question {
-    color: var(--text2, #000000);
-    text-align: left;
-    font-family: var(--title-16px-regular-font-family,
-            "Poppins-Regular",
-            sans-serif);
-    font-size: var(--title-16px-regular-font-size, 16px);
-    line-height: var(--title-16px-regular-line-height, 24px);
-    font-weight: var(--title-16px-regular-font-weight, 400);
-    position: relative;
-}
-
-.login-link-container {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.login-link {
-    color: var(--text2, #FF5C00);
+.forget-password-link {
+    color: var(--secondary-2, #df2648);
     text-align: left;
     font-family: var(--title-16px-regular-font-family,
             "Poppins-Regular",
@@ -264,15 +176,4 @@
     font-weight: var(--title-16px-regular-font-weight, 400);
     position: relative;
     text-decoration: none;
-
-}
-
-.login-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -4px;
-    /* 調整底線與文字的距離 */
-    border-bottom: solid 0.5px rgba(0, 0, 0, 0.5);
 }

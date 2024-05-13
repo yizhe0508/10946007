@@ -11,12 +11,12 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">虛擬寶物交換網</a>
         <div class="navbar-links">
-            <a class="nav-link" href="#">首頁</a>
-            <a class="nav-link" href="#">刊登交換</a>
+            <a class="nav-link" href="{% url 'index' %}">首頁</a>
+            <a class="nav-link" href="{% url 'add_swap' %}">刊登交換</a>
             <a class="nav-link" href="#">交換管理</a>
             <a class="nav-link" href="#">登出</a>
-            <a class="nav-link" href="#">登入</a>
-            <a class="nav-link" href="#">註冊</a>
+            <a class="nav-link" href="{% url 'login' %}">登入</a>
+            <a class="nav-link" href="{% url 'signup' %}">註冊</a>
         </div>
     </div>
 </nav>

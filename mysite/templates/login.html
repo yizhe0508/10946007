@@ -1,0 +1,34 @@
+<!-- login.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <div class="side-image-container">
+        <img class="side-image" src="/static/images/sideimg.png" />
+    </div>
+    <div class="login-form">
+        <div class="login-header">
+            <div class="login-title">登入</div>
+            <div class="login-subtitle">請輸入以下欄位</div>
+        </div>
+        <div class="login-fields">
+            <div class="login-field">
+                <input type="text" class="field-input" name="email" placeholder="信箱" />
+            </div>
+            <div class="login-field">
+                <input type="password" class="field-input" name="password" placeholder="密碼" />
+            </div>
+        </div>
+        <div class="login-actions">
+            <button class="login-button">
+                <div class="login-button-label">登入</div>
+            </button>
+            <div class="alternative-actions">
+                <div class="forget-password">
+                    <a href="{% url 'signup' %}" class="forget-password-link">忘記密碼？</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
