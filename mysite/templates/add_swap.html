@@ -2,6 +2,74 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="swap-post-container">
+    <div class="swap-post-header">
+        <div class="header-title">新增一個交換貼文</div>
+    </div>
+    <div class="form-section">
+        <div class="form-item-group">
+            <div class="section-title">物品資訊</div>
+            <div class="form-field">
+                <div class="field-label">遊戲名稱</div>
+                <select class="drop-down-menu" id="gameSelect">
+                    <option value=""></option>
+                    <option value="game1">遊戲1</option>
+                    <option value="game2">遊戲2</option>
+                    <option value="game3">遊戲3</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <div class="field-label">伺服器</div>
+                <select class="drop-down-menu" id="gameSelect">
+                    <option value=""></option>
+                    <option value="game1">伺服器1</option>
+                    <option value="game2">伺服器2</option>
+                    <option value="game3">伺服器3</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <div class="field-label">物品名稱</div>
+                <input class="input-field" type="text" name="item-name" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="form-field-img">
+                    <div class="field-label">物品圖片</div>
+                    <button class="upload-button">
+                        <div class="upload-button-label">上傳</div>
+                    </button>
+                </div>
+                <div class="upload-img"></div>
+            </div>
+            <div class="form-field">
+                <div class="field-label">物品描述</div>
+                <input class="input-field" type="text" name="item-describe" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="field-label">需求物品</div>
+                <input class="input-field" type="text" name="need-item" placeholder="">
+            </div>
+        </div>
+        <div class="form-swap-group">
+            <div class="section-title">交換資訊</div>
+            <div class="form-field">
+                <div class="field-label">交換時間</div>
+                <input class="input-field" type="text" name="swap-time" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="field-label">交換地點</div>
+                <input class="input-field" type="text" name="swap-location" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="field-label">角色名稱</div>
+                <input class="input-field" type="text" name="role-name" placeholder="">
+            </div>
+        </div>
+    </div>
+    <div class="submit-button-container">
+        <button class="submit-button">
+            <div class="submit-button-label">送出</div>
+        </button>
+    </div>
+</div>
 
 {% endblock %}

@@ -99,6 +99,7 @@
     /* 隱藏原始的下拉圖示 */
     -webkit-appearance: none;
     -moz-appearance: none;
+    outline: none;
     appearance: none;
     /* 添加自定義的圖片 */
     background-image: url("/static/images/dropdown-icon.png");
@@ -106,7 +107,6 @@
     background-position: right center;
     /* 添加一些 padding，使得文字不會和圖片重疊 */
     padding-right: 34px;
-
 }
 
 .search-option-input {
