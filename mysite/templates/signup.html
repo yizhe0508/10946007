@@ -2,7 +2,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="registration-container">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/signup.css">
+</head>
+
+<div class="registration-container centered-content">
     <div class="side-image-container">
         <img class="side-image" src="/static/images/sideimg.png" />
     </div>
@@ -36,11 +41,13 @@
                 <div class="login-prompt">
                     <div class="login-question">已經有帳號？</div>
                     <div class="login-link-container">
-                        <a href="{% url 'login' %}" class="login-link">登入</div>
+                        <a href="{% url 'login' %}" class="login-link">登入</a>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
 {% endblock %}

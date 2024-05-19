@@ -4,12 +4,11 @@
 }
 
 .login-container {
-    width: 90%;
     margin-top: 36px;
     margin-bottom: 84px;
     display: flex;
     flex-direction: row;
-    gap: 129px;
+    gap: 120px;
     align-items: center;
     justify-content: flex-start;
     position: relative;
@@ -42,14 +41,12 @@
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
-    right: 20%;
 }
 
 .login-header {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    margin-bottom: 8px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;

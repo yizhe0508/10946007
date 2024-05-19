@@ -13,8 +13,10 @@
     --secondary-2: #df2648;
     --button1: #52d880;
     --button2: #315cea;
+    --button3: #E9677F;
     --hover-button1: #a9ebbf;
     --hover-button2: #a0bce0;
+    --hover-button3: #F2A6B4;
     --30percent-1px: rgba(0, 0, 0, 0.3);
 
     /* Fonts */
@@ -277,4 +279,11 @@
     /* Effects */
     --categogy-20-box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.2);
     --categogy-5-box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+    
+}
+
+.centered-content {
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -4,12 +4,11 @@
 }
 
 .registration-container {
-    width: 90%;
     margin-top: 36px;
     margin-bottom: 84px;
     display: flex;
     flex-direction: row;
-    gap: 150px;
+    gap: 120px;
     align-items: center;
     justify-content: flex-start;
     position: relative;
@@ -42,14 +41,13 @@
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
-    right: 20%;
+    position: relative;
 }
 
 .registration-header {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    margin-bottom: 8px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
@@ -134,11 +132,9 @@
     flex-direction: column;
     gap: 16px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     flex-shrink: 0;
     position: relative;
-    height: 188.5px;
-    width: 371px;
 }
 
 .register-button {
@@ -186,7 +182,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     flex-shrink: 0;
     position: relative;
@@ -196,8 +192,8 @@
     display: flex;
     flex-direction: row;
     gap: 16px;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
     position: relative;
 }
@@ -224,7 +220,6 @@
     display: flex;
     flex-direction: row;
     gap: 16px;
-    margin-top: 16px;
     align-items: center;
     justify-content: flex-start;
     flex-shrink: 0;
@@ -243,18 +238,8 @@
     position: relative;
 }
 
-.login-link-container {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
 .login-link {
-    color: var(--text2, #FF5C00);
+    color: var(--text2, #000000);
     text-align: left;
     font-family: var(--title-16px-regular-font-family,
             "Poppins-Regular",
@@ -264,7 +249,6 @@
     font-weight: var(--title-16px-regular-font-weight, 400);
     position: relative;
     text-decoration: none;
-
 }
 
 .login-link::after {

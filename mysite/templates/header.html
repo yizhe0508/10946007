@@ -1,5 +1,11 @@
 <!-- header.html -->
-<div class="top-header">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/top-header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/header.css">
+</head>
+
+<div class="top-header ">
     <div class="frame-746">
         <div class="frame-555">
             <div class="hello">您好！ 歡迎來到虛擬寶物交換平台。</div>
@@ -8,12 +14,12 @@
 </div>
 
 <nav class="navbar">
-    <div class="container-fluid">
+    <div class="container-fluid centered-content">
         <a class="navbar-brand" href="#">虛擬寶物交換網</a>
         <div class="navbar-links">
             <a class="nav-link" href="{% url 'index' %}">首頁</a>
             <a class="nav-link" href="{% url 'add_swap' %}">刊登交換</a>
-            <a class="nav-link" href="#">交換管理</a>
+            <a class="nav-link" href="{% url 'swap_manage' %}">交換管理</a>
             <a class="nav-link" href="#">登出</a>
             <a class="nav-link" href="{% url 'login' %}">登入</a>
             <a class="nav-link" href="{% url 'signup' %}">註冊</a>

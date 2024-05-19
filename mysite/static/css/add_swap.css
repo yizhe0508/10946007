@@ -156,6 +156,10 @@
     gap: 8px;
 }
 
+.hidden-input {
+    display: none;
+}
+
 .upload-button {
     background: var(--button1, #52d880);
     border-radius: 4px;
@@ -167,19 +171,14 @@
     justify-content: center;
     flex-shrink: 0;
     position: relative;
-    border: none;
-}
-
-.upload-button-label {
     color: var(--text, #fafafa);
-    text-align: left;
     font-family: var(--title-12px-regular-font-family,
             "Poppins-Regular",
             sans-serif);
     font-size: var(--title-12px-regular-font-size, 12px);
     line-height: var(--title-12px-regular-line-height, 18px);
     font-weight: var(--title-12px-regular-font-weight, 400);
-    position: relative;
+    text-align: left;
 }
 
 .upload-img {
@@ -188,6 +187,10 @@
     flex-shrink: 0;
     width: 200px;
     height: 150px;
+    background-size: cover;
+    /* 讓背景圖片覆蓋整個元素 */
+    background-position: center;
+    /* 將背景圖片置於元素中心 */
     position: relative;
     overflow: hidden;
 }
