@@ -15,14 +15,20 @@ def add_swap(request):
         # 這裡處理你的文件上傳邏輯
     return render(request, 'add_swap.html')
 
+def swap_manage(request):
+    return render(request, 'swap_manage.html')
+
 def edit_swap(request):
     if request.method == 'POST':
         item_image = request.FILES['item-image']
         # 這裡處理你的文件上傳邏輯
     return render(request, 'edit_swap.html')
 
-def swap_manage(request):
-    return render(request, 'swap_manage.html')
+def active_swap(request):
+    return render(request, 'active_swap.html')
+
+def account(request):
+    return render(request, 'account.html')
 
 def error_404(request, exception):
     return render(request, 'error_404.html')

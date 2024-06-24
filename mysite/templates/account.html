@@ -1,0 +1,74 @@
+<!-- account.html-->
+{% extends "base.html" %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/account.css">
+</head>
+
+<div class="account-container">
+    <!--側邊欄位-->
+    <div class="sidebar">
+        <div class="account-management">管理我的帳戶</div>
+        <div class="profile-edit-section">
+            <div class="edit-profile">編輯個人資料</div>
+            <div class="change-nickname">修改暱稱</div>
+            <div class="change-email">修改信箱</div>
+            <div class="change-password">修改密碼</div>
+        </div>
+    </div>
+
+    <!--編輯個人資料-->
+    <form class="profile-edit-container" action="/path/to/your/update/endpoint" method="POST">
+        <div class="edit-header">編輯個人資料</div>
+        <div class="edit-content">
+            <div class="nickname-section">
+                <div class="label">暱稱</div>
+                <div class="input-box">
+                    <!--
+                    <div class="input-placeholder"></div>
+                    <div class="input-value">rimel1111</div> 
+                    -->
+                    <input type="text" name="nickname" placeholder="輸入新的暱稱" value="rimel1111" class="input-field">
+                </div>
+            </div>
+            <div class="email-section">
+                <div class="label">信箱</div>
+                <div class="input-box">
+                    <!--
+                    <div class="input-placeholder"></div>
+                    <div class="input-value">rimel1111@gmail.com</div>
+                    -->
+                    <input type="email" name="email" placeholder="輸入新的信箱" value="rimel1111@gmail.com"
+                        class="input-field">
+
+                </div>
+            </div>
+        </div>
+        <div class="password-section">
+            <div class="current-password">
+                <div class="label">密碼</div>
+                <div class="input-box-large">
+                    <input type="password" name="current_password" placeholder="輸入目前密碼" class="input-field">
+                </div>
+            </div>
+            <div class="input-box-large">
+                <input type="password" name="new_password" placeholder="輸入新密碼" class="input-field">
+
+            </div>
+            <div class="input-box-large">
+                <input type="password" name="confirm_new_password" placeholder="再次輸入新密碼" class="input-field">
+            </div>
+        </div>
+
+        <div class="edit-actions">
+            <button class="action-cancel">取消</button>
+            <div class="action-save">
+                <button class="save-button">儲存變更</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -24,6 +24,7 @@
 
 .navbar-links {
     display: flex;
+    margin: auto;
     /* 水平排列連結 */
 }
 

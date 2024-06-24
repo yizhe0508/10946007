@@ -25,7 +25,9 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     path('add_swap/', views.add_swap, name='add_swap'),
-    path('edit_swap/', views.edit_swap, name='edit_swap'),
     path('swap_manage/', views.swap_manage, name='swap_manage'),
+    path('edit_swap/', views.edit_swap, name='edit_swap'),
+    path('active_swap/', views.active_swap, name='active_swap'), 
+    path('account/', views.account, name='account'),   
     path('404/', views.error_404, name='error_404'),
 ]
