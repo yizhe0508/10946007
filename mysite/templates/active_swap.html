@@ -2,9 +2,49 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <head>
     <link rel="stylesheet" type="text/css" href="/static/css/active_swap.css">
 </head>
+
+<div class="exchange-container">
+    <div class="exchange-details">
+        <div class="exchange-header">交換資訊如下</div>
+        <div class="exchange-item">伺 服 器：<span id="server-info">XXXX</span></div>
+        <div class="exchange-item">交換時間：<span id="swapTime-info">XXXX</span></div>
+        <div class="exchange-item">交換地點：<span id="swapLocation-info">XXXX</span></div>
+        <div class="exchange-item">角色名稱：<span id="roleName-info">XXXX</span></div>
+        <div class="exchange-item">物品名稱：<span id="itemName-info">XXXX</span></div>
+        <div class="exchange-item">需求物品：<span id="needItem-info">XXXX</span></div>
+    </div>
+
+    <div class="message-board">
+        <div class="message-header">交換留言板</div>
+        <div class="message-content">
+            <div class="message">A先生：XXXXXXXXXXXXXXXXXXXXXX</div>
+            <div class="message">B先生：XXXXXXXXXXXXXXXXXXXXXX</div>
+        </div>
+        <div class="message-input">
+            <input class="message-placeholder" type="text" placeholder="請輸入訊息..." />
+            <button class="send-button">
+
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="swap-active">
+    <button class="cancel-button">
+        <div class="active-button-text">取消交換</div>
+    <button class="complete-button">
+        <div class="active-button-text">完成交換</div>
+    </button>
+</div>
+
+</div>
+
+
+
 
 
 {% endblock %}

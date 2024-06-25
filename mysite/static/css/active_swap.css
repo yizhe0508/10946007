@@ -1,0 +1,200 @@
+/* 使所有元素的 box-sizing 設置為 border-box */
+.exchange-container,
+.exchange-container * {
+    box-sizing: border-box;
+
+}
+
+/* 主要容器樣式 */
+.exchange-container {
+    background: #ffffff;
+    border-radius: 4px;
+    width: 800px;
+    height: 490px;
+    position: relative;
+    box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    justify-content: center;
+    gap: 300px;
+}
+
+/* 交換詳細信息區域樣式 */
+.exchange-details {
+    padding: 0 0 1px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 300px;
+    height: 432px;
+}
+
+.exchange-header {
+    color: #000000;
+    text-align: left;
+    font-family: "Poppins-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.exchange-item {
+    color: #000000;
+    text-align: left;
+    font-family: "Poppins-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+/* 訊息板區域樣式 */
+.message-board {
+    border-radius: 4px;
+    border: 1.5px solid #000000;
+    padding: 12px 16px 0px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    width: 296px;
+    height: 408px;
+    position: relative;
+
+
+}
+
+.message-header {
+    color: #000000;
+    text-align: left;
+    font-family: "Poppins-Regular", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 267px;
+    height: 368px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.message {
+    color: #000000;
+    text-align: left;
+    font-family: "Poppins-Regular", sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+    width: 267px;
+}
+
+/* 訊息輸入區域樣式 */
+.message-input {
+    border-radius: 4px;
+    border-style: solid;
+    border-color: var(--text2, #000000);
+    border-width: 1.5px;
+    padding: 12px 0px 12px 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+    justify-content: flex-start;
+    width: 296px;
+    height: 40px;
+    position: relative;
+}
+
+.message-placeholder {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+    border: none;
+}
+
+.message-placeholder:focus {
+    outline: none;
+}
+
+.send-button {
+    background-color: #ffffff;
+    background-image: url("/static/images/icon-send.png");
+    width: 24px;
+    height: 24px;
+    position: relative;
+    overflow: visible;
+    border: none
+}
+
+.swap-active {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+.cancel-button {
+    background: var(--secondary-2, #df2648);
+    border-radius: 4px;
+    padding: 8px 24px 8px 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+}
+
+.cancel-button:hover {
+    background: var(--button3, #E9677F);}
+
+.complete-button {
+    background: var(--button1, #52d880);
+    border-radius: 4px;
+    padding: 8px 24px 8px 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+}
+
+.complete-button:hover {
+    background: var(--hover-button1, #a9ebbf);
+}
+
+.active-button-text {
+    color: var(--text, #fafafa);
+    text-align: left;
+    font-family: var(--title-12px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-12px-regular-font-size, 12px);
+    line-height: var(--title-12px-regular-line-height, 18px);
+    font-weight: var(--title-12px-regular-font-weight, 400);
+    position: relative;
+}
