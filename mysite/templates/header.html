@@ -7,8 +7,13 @@
 
 <div class="top-header ">
     <div class="frame-746">
-        <div class="frame-555">
-            <div class="hello">您好！ 歡迎來到虛擬寶物交換網。</div>
+        <div class="hello">
+            您好！
+            {% if user.is_authenticated %}
+            {{ user.username }}，歡迎來到虛擬寶物交換網。
+            {% else %}
+            歡迎來到虛擬寶物交換網。
+            {% endif %}
         </div>
     </div>
 </div>
@@ -22,7 +27,7 @@
             <a class="nav-link" href="{% url 'swap_manage' %}">交換管理</a>
             <!--<a class="nav-link" href="#">登出</a> -->
             <a class="nav-link" href="{% url 'login' %}">登入</a>
-            <a class="nav-link" href="{% url 'signup' %}">註冊</a>
+            <a class="nav-link" href="{% url 'register' %}">註冊</a>
             <a class="nav-link" href="{% url 'account' %}">我的帳號</a>
         </div>
     </div>

@@ -1,0 +1,211 @@
+.account-container,
+.account-container * {
+    box-sizing: border-box;
+    max-width: 100vw;
+}
+
+.account-container {
+    top: 30px;
+    margin-left: 100px;
+    position: relative;
+    ;
+    display: flex;
+    flex-direction: row;
+    gap: 150px;
+}
+
+/* 側邊欄位 */
+.sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-edit-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.account-management {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family,
+            "Poppins-Medium",
+            sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+}
+
+.edit-profile {
+    color: var(--secondary-2, #db4444);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+}
+
+.change-nickname,
+.change-email,
+.change-password {
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    opacity: 0.5;
+}
+
+/* 編輯個人資料 */
+.profile-edit-container {
+    background: var(--primary, #ffffff);
+    border-radius: 4px;
+    width: 870px;
+    height: 600px;
+    position: relative;
+    box-shadow: var(--category-5-box-shadow, 0px 1px 13px 0px rgba(0, 0, 0, 0.05));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-header {
+    color: var(--secondary-2, #db4444);
+    text-align: left;
+    font-family: var(--title-20px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-20px-medium-font-size, 20px);
+    line-height: var(--title-20px-medium-line-height, 28px);
+    font-weight: var(--title-20px-medium-font-weight, 500);
+    position: relative;
+    left: 80px;
+    top: 32px;
+}
+
+.edit-content {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    left: 80px;
+    top: 84px;
+}
+
+.nickname-section,
+.email-section{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.current-password {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 8px;
+}
+
+.label {
+    color: var(--text2, #000000);
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family, "Poppins-Regular", sans-serif);
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+    position: relative;
+}
+
+.input-box,
+.input-box-large {
+    flex-shrink: 0;
+    width: 330px;
+    height: 50px;
+    position: relative;
+}
+
+.input-box-large {
+    width: 710px;
+    /* Adjusted for larger input boxes */
+}
+
+.input-field {
+    background: var(--secondary, #f5f5f5);
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    right: 0%;
+    left: 0%;
+    bottom: 0%;
+    top: 0%;
+    overflow: hidden;
+    border: none;
+    padding-left: 16px;
+    padding-top: center;
+}
+
+.password-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    left: 80px;
+    top: 194px;
+}
+
+.edit-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    right: 80px;
+    top: calc(50% - -136.5px);
+}
+
+.action-cancel,
+.save-button {
+    border-radius: 4px;
+    padding: 16px 48px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+    font-size: var(--title-16px-regular-font-size, 16px);
+    line-height: var(--title-16px-regular-line-height, 24px);
+}
+
+.action-cancel {
+    color: var(--text2, #000000);
+    background-color: #ffffff;
+    text-align: left;
+    font-family: var(--title-16px-regular-font-family,
+            "Poppins-Regular",
+            sans-serif);
+    font-weight: var(--title-16px-regular-font-weight, 400);
+}
+
+.save-button {
+    background-color: var(--button1, #52d880);
+    color: var(--text, #fafafa);
+    text-align: left;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+}

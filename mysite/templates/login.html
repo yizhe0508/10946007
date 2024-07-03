@@ -11,29 +11,47 @@
     <div class="side-image-container">
         <img class="side-image" src="/static/images/sideimg.png" />
     </div>
-    <div class="login-form">
+    <form class="login-form" action="" method="POST">
+        {% csrf_token %}
         <div class="login-header">
             <div class="login-title">登入</div>
-            <div class="login-subtitle">請輸入以下欄位</div>
+            <div class="login-subtitle">請輸入您的帳號或信箱與密碼</div>
         </div>
         <div class="login-fields">
             <div class="login-field">
-                <input type="text" class="field-input" name="email" placeholder="信箱" />
+                <input type="text" class="field-input" name="username_or_email" placeholder="帳號或信箱" required />
             </div>
             <div class="login-field">
-                <input type="password" class="field-input" name="password" placeholder="密碼" />
+                <input type="password" class="field-input" name="password" placeholder="密碼" required />
             </div>
         </div>
         <div class="login-actions">
-            <button class="login-button">
+            <button type="submit" class="login-button">
                 <div class="login-button-label">登入</div>
             </button>
             <div class="alternative-actions">
+            <!--
+                <div class="signup-prompt">
+                    <div class="signup-question">還沒有帳號？</div>
+                    <div class="signup-link-container">
+                        <a href="{% url 'register' %}" class="signup-link">註冊</a>
+                    </div>
+                </div>
+            -->
                 <div class="forget-password">
-                    <a href="{% url 'signup' %}" class="forget-password-link">忘記密碼？</a>
+                    <a href="{% url 'register' %}" class="forget-password-link">忘記密碼？</a>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="error-message-container">
+            {% if messages %}
+            <div class="error-message">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </form>
 </div>
 {% endblock %}

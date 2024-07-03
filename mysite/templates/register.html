@@ -1,34 +1,39 @@
-<!-- signup.html -->
+<!-- register.html -->
 {% extends "base.html" %}
 
 {% block content %}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/signup.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/register.css">
 </head>
 
 <div class="registration-container centered-content">
     <div class="side-image-container">
         <img class="side-image" src="/static/images/sideimg.png" />
     </div>
-    <div class="registration-form">
+
+    <form class="registration-form" action="" method="POST">
+        {% csrf_token %}
         <div class="registration-header">
             <div class="registration-title">註冊一個新的帳號</div>
             <div class="registration-subtitle">請輸入以下欄位</div>
         </div>
         <div class="registration-fields">
             <div class="registration-field">
-                <input type="text" class="field-input" name="name" placeholder="姓名" />
+                <input type="text" class="field-input" name="username" placeholder="帳號" />
             </div>
             <div class="registration-field">
                 <input type="text" class="field-input" name="email" placeholder="信箱" />
             </div>
             <div class="registration-field">
-                <input type="text" class="field-input" name="password" placeholder="密碼" />
+                <input type="password" class="field-input" name="password1" placeholder="密碼" />
+            </div>
+            <div class="registration-field">
+                <input type="password" class="field-input" name="password2" placeholder="再次輸入密碼" />
             </div>
         </div>
         <div class="registration-actions">
-            <button class="register-button">
+            <button type="submit" class="register-button">
                 <div class="signup-button-label">註冊帳號</div>
             </button>
             <div class="alternative-actions">
@@ -48,8 +53,12 @@
                 </div>
             </div>
         </div>
-
-    </div>
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+    </form>
 </div>
+
+
 
 {% endblock %}
