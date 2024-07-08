@@ -1,0 +1,21 @@
+<!-- registration_complete.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class='container'>
+    {% for message in messages %}
+    <div class='alert alert-{{message.tags}}'>{{ message }}</div>
+    {% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='card'>
+                <div class='card-header' alig=center>
+                    <h3>註冊成功！</h3>
+                    <p>我們已經向您的電子郵件地址發送了一封確認郵件。請檢查您的信箱並點擊郵件中的連結以完成帳號驗證。</p>
+                    <p>如果您沒有收到郵件，請檢查您的垃圾郵件夾或重新 <a href="{% url 'register' %}">註冊</a>。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

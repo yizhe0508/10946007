@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth import get_user_model
+import uuid
 
 
 class UserManager(BaseUserManager):
@@ -25,6 +26,7 @@ class UserManager(BaseUserManager):
             username=username,
             password=password,
         )
+        user.is_email_verified = True
         user.is_superuser = True
         user.is_staff = True
         user.is_active = True
@@ -37,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='信箱', max_length=255, unique=True)
     password = models.CharField(max_length=128, verbose_name='password')
     nickname = models.CharField(max_length=50, blank=True, null=True, verbose_name='暱稱')
+    is_email_verified = models.BooleanField(default=False, verbose_name='信箱已驗證')
     is_active = models.BooleanField(default=True, verbose_name='啟用')
     is_staff = models.BooleanField(default=False)  # 用來控制用戶是否可以登入 Django 的管理界面
     is_superuser = models.BooleanField(default=False)  # 用來控制用戶是否具有超級用戶權限

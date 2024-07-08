@@ -96,6 +96,22 @@ AUTHENTICATION_BACKENDS = [
     'mysite.backends.EmailOrUsernameModelBackend',
 ]
 
+# 信箱驗證測試
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#DEFAULT_FROM_EMAIL = '10946007@ntub.edu.tw'  # 這是你用來發送郵件的地址
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '10946007@ntub.edu.tw'
+EMAIL_HOST_PASSWORD = 'srszjcimazjhpsif'  # 應用程式密碼
+DEFAULT_FROM_EMAIL = '10946007@ntub.edu.tw'
+
+# 設置帳戶驗證的有效期限（以天為單位）
+ACCOUNT_ACTIVATION_DAYS = 7  # 可以根據需要調整為 1、2、7 等天數
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

@@ -1,0 +1,12 @@
+<!-- activation_success -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <h3 class='alert alert-primary'>信箱驗證成功，現在您可以 <a href="{% url 'login' %}">登入</a> 了！</h3>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -22,17 +22,6 @@
     top: 5px;
 }
 
-.frame-555 {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    width: 228px;
-    position: relative;
-}
-
 .hello{
     color: var(--text, #fafafa);
     text-align: left;
