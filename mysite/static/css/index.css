@@ -221,27 +221,26 @@
     height: 300px;
     position: relative;
     overflow: hidden;
-}
-
-.item-view-icon {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    right: 12px;
-    top: 12px;
+    justify-content: center;
+    align-items: center;
 }
 
 .item-image-frame {
-    width: 190px;
-    height: 180px;
-    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    left: calc(50% - 95px);
-    top: calc(50% - 90px);
     overflow: hidden;
+}
+
+.item-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    width: auto;
+    height: auto;
 }
 
 .item-details-container {
@@ -253,6 +252,17 @@
     flex-shrink: 0;
     width: 400px;
     position: relative;
+}
+
+.item-view-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    right: 12px;
+    top: 12px;
 }
 
 .game-name {
@@ -527,14 +537,11 @@
     position: relative;
     color: var(--text2, #000000);
     text-align: center;
-    font-family: var(--heading-24px-semibold-font-family,
-            "Inter-SemiBold",
-            sans-serif);
+    font-family: var(--heading-24px-semibold-font-family, "Inter-SemiBold", sans-serif);
     font-size: var(--heading-24px-semibold-font-size, 24px);
     line-height: var(--heading-24px-semibold-line-height, 24px);
     letter-spacing: var(--heading-24px-semibold-letter-spacing, 0.03em);
     font-weight: var(--heading-24px-semibold-font-weight, 600);
-
 }
 
 .change-page {
@@ -569,4 +576,51 @@
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+.pagination-button.current {
+    background: var(--hover-button2, #a0bce0);
+}
+
+/* 放大圖片的樣式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+}
+
+.modal .close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
 }

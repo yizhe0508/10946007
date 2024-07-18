@@ -1,10 +1,10 @@
 <!-- login.html -->
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 
 <div class="login-container centered-content">

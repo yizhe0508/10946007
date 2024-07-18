@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/account.css">
+    <link rel="stylesheet" href="{% static 'css/account.css' %}">
 </head>
 
 <div class="account-container">

@@ -1,10 +1,10 @@
 <!-- register.html -->
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/register.css">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
 </head>
 
 <div class="registration-container centered-content">

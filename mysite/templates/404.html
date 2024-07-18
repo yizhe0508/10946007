@@ -1,0 +1,25 @@
+<!-- 404.html -->
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/404.css' %}">
+</head>
+
+<div class="_404-container centered-content">
+    <div class="_404-not-found">404 Not Found</div>
+    <div class="explain">您訪問的頁面不存在，請返回首頁。</div>
+    <button class="back-home-button" onclick="goToHome()">
+        <div class="back-home-button-lable">
+            回到首頁
+        </div>
+    </button>
+</div>
+
+<script>
+    function goToHome() {
+        window.location.href = "{% url 'index' %}";
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,165 @@
+<!-- add_swap_post.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/add_swap_post.css' %}">
+</head>
+
+<form class="swap-post-container" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="swap-post-header">
+        <div class="header-title">新增一個交換貼文</div>
+    </div>
+    <div class="form-section">
+        <div class="form-item-group">
+            <div class="section-title">物品資訊</div>
+            <div class="form-field">
+                <div class="field-label">遊戲名稱</div>
+                <select class="drop-down-menu" id="gameName" name="game">
+                    <option value="" disabled selected>選擇遊戲</option>
+                    {% for game in games %}
+                    <option value="{{ game.id }}">{{ game.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-field">
+                <div class="field-label">伺服器</div>
+                <select class="drop-down-menu" id="serverName" name="server">
+                    <option value="" disabled selected>選擇伺服器</option>
+                    {% for server in servers %}
+                    <option value="{{ server.id }}">{{ server.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-field">
+                <div class="field-label">物品名稱</div>
+                <input class="input-field" type="text" name="itemName" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="form-field-img">
+                    <div class="field-label">物品圖片</div>
+                    <input type="file" id="itemImg" name="itemImg" class="hidden-input">
+                    <label for="itemImg" class="upload-button">上傳</label>
+                </div>
+                <div class="upload-img">
+                    <img src="" alt="預覽圖片">
+                </div>
+            </div>
+            <div class="form-field">
+                <div class="field-label">物品描述</div>
+                <input class="input-field" type="text" name="itemDescribe" id="itemDescribe" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="field-label">需求物品</div>
+                <input class="input-field" type="text" name="desired_item" id="desired_item" placeholder="">
+            </div>
+        </div>
+        <div class="form-swap-group">
+            <div class="section-title">交換資訊</div>
+            <div class="form-field">
+                <div class="field-label">交換時間</div>
+                <input class="input-field" type="datetime-local" name="swapTime" id="swapTime" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="field-label">交換地點</div>
+                <input class="input-field" type="text" name="swapLocation" id="swapLocation" placeholder="">
+            </div>
+            <div class="form-field">
+                <div class="field-label">角色名稱</div>
+                <input class="input-field" type="text" name="roleName" id="swapRole" placeholder="">
+            </div>
+        </div>
+    </div>
+    <div class="submit-button-container">
+        <button class="submit-button">
+            <div class="submit-button-label">送出</div>
+        </button>
+    </div>
+</form>
+
+<!--動態更新"伺服器"下拉選單-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let gameSelect = document.querySelector('#gameName'); // 獲取遊戲選擇的下拉菜單元素
+        let serverSelect = document.querySelector('#serverName'); // 獲取伺服器選擇的下拉菜單元素
+        let form = document.querySelector('form');
+        let requiredFields = [
+            { selector: '#gameName', message: '請選擇遊戲' },
+            { selector: '#serverName', message: '請選擇伺服器' },
+            { selector: 'input[name="itemName"]', message: '請輸入物品名稱' },
+            { selector: 'input[name="itemImg"]', message: '請上傳物品圖片' },
+            { selector: 'input[name="itemDescribe"]', message: '請輸入物品描述' },
+            { selector: 'input[name="desired_item"]', message: '請輸入需求物品' },
+            { selector: 'input[name="swapTime"]', message: '請選擇交換時間' },
+            { selector: 'input[name="swapLocation"]', message: '請輸入交換地點' },
+            { selector: 'input[name="roleName"]', message: '請輸入角色名稱' }
+        ];
+
+        gameSelect.addEventListener('change', function () {
+            let gameId = gameSelect.value;
+            if (gameId) {
+                fetch(`/get_servers/?game_id=${gameId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        serverSelect.innerHTML = '<option value="">選擇伺服器</option>';
+                        data.servers.forEach(server => {
+                            serverSelect.innerHTML += `<option value="${server.id}">${server.name}</option>`;
+                        });
+                    });
+            } else {
+                serverSelect.innerHTML = '<option value="">選擇伺服器</option>';
+            }
+        });
+
+        form.addEventListener('submit', function (event) {
+            let errorMessages = [];
+            requiredFields.forEach(field => {
+                let input = document.querySelector(field.selector);
+                if (!input.value) {
+                    errorMessages.push(field.message);
+                }
+            });
+
+            if (errorMessages.length > 0) {
+                alert(errorMessages.join('\n'));
+                event.preventDefault(); // 阻止表單提交
+            }
+        });
+    });
+
+    // 上傳圖片預覽
+    document.querySelector('#itemImg').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        const uploadImg = document.querySelector('.upload-img');
+        const previewImg = uploadImg.querySelector('img');
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (file && file.type.startsWith('image/')) {
+            if (file.size > maxSize) {
+                alert('圖片大小不能超過5MB');
+                e.target.value = ''; // 清除選擇的文件
+                uploadImg.classList.remove('has-image');
+                previewImg.src = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                uploadImg.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('請選擇有效的圖片文件');
+            e.target.value = ''; // 清除選擇的文件
+            uploadImg.classList.remove('has-image');
+            previewImg.src = '';
+        }
+    });
+
+</script>
+
+{% endblock %}

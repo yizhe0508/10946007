@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from venv import logger
 from django.contrib import messages
-from .models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,16 +13,31 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-
+from .models import SwapPost, Game, Server, User
+from django.http import JsonResponse
+from django.utils.dateparse import parse_datetime
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.paginator import Paginator
 
 def index(request):
-    # 檢查用戶是否已登入
+    swap_posts = SwapPost.objects.all().order_by('-created_at')
+    
+    # 每頁顯示 10 個貼文，你可以根據需要調整這個數字
+    paginator = Paginator(swap_posts, 5)
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'swap_posts': page_obj,
+    }
+    
     if request.user.is_authenticated:
-        # 用戶已登入，可以將用戶信息傳遞給模板
-        return render(request, 'index.html', {'user': request.user})
-    else:
-        # 用戶未登入，可選擇重定向到登入頁面或僅顯示一般首頁
-        return render(request, 'index.html')
+        context['user'] = request.user
+    
+    return render(request, 'index.html', context)
 
 def register(request):
     if request.method == 'POST':
@@ -158,20 +172,91 @@ def logout_view(request):
     logout(request)  # 執行登出操作
     return redirect('index')  # 登出後重定向到首頁
 
-def add_swap(request):
+@login_required
+def add_swap_post(request):
     if request.method == 'POST':
-        item_image = request.FILES['item-image']
-        # 這裡處理你的文件上傳邏輯
-    return render(request, 'add_swap.html')
+        game_id = request.POST.get('game')
+        server_id = request.POST.get('server')
+        item_name = request.POST.get('itemName')
+        item_img = request.FILES.get('itemImg')
+        item_description = request.POST.get('itemDescribe')
+        desired_item = request.POST.get('desired_item')
+        swap_time = request.POST.get('swapTime')
+        swap_location = request.POST.get('swapLocation')
+        role_name = request.POST.get('roleName')
+        status = 'WAITING'  # 預設狀態
+
+        # 確保所有必要的字段都有值
+        if not game_id or not server_id or not item_name or not item_description or not desired_item or not swap_time or not swap_location or not role_name:
+            messages.error(request, '所有欄位都是必填的！')
+            return render(request, 'add_swap_post.html', {'games': Game.objects.all(), 'servers': Server.objects.filter(game_id=game_id)})
+
+        try:
+            game = Game.objects.get(id=game_id)
+            server = Server.objects.get(id=server_id, game=game)  # 確保伺服器和遊戲對應
+        except Game.DoesNotExist:
+            messages.error(request, '選擇的遊戲不存在。')
+            return redirect('add_swap_post')
+        except Server.DoesNotExist:
+            messages.error(request, '選擇的伺服器不存在。')
+            return redirect('add_swap_post')
+
+        # 將 swap_time 轉換為 datetime 對象
+        swap_time = parse_datetime(swap_time)
+        
+        # 圖片處理
+        if item_img:
+            img = Image.open(item_img)
+
+            # 如果圖片是 RGBA 模式，將其轉換為 RGB 模式
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
+
+            # 保持原始尺寸進行壓縮
+            output = BytesIO()
+            img.save(output, format='JPEG', quality=85)
+            item_img = InMemoryUploadedFile(
+                output, 'ImageField', f'{item_name}.jpg', 'image/jpeg', output.tell(), None
+            )
+
+        # 創建新的交換貼文
+        try:
+            SwapPost.objects.create(
+                user=request.user,
+                game=game,
+                server=server,
+                item_name=item_name,
+                item_image=item_img,
+                item_description=item_description,
+                desired_item=desired_item,
+                swap_time=swap_time,
+                swap_location=swap_location,
+                role_name=role_name,
+                status=status
+            )
+            messages.success(request, '交換貼文已成功新增！')
+            return redirect('index')  # 根據需要重定向到你的首頁或其他頁面
+        except Exception as e:
+            messages.error(request, f'發生錯誤: {e}')
+
+    else:
+        game_id = request.GET.get('game_id')
+        servers = Server.objects.filter(game_id=game_id) if game_id else Server.objects.none()
+        return render(request, 'add_swap_post.html', {'games': Game.objects.all(), 'servers': servers})
+    
+def get_servers(request):
+    game_id = request.GET.get('game_id')
+    servers = Server.objects.filter(game_id=game_id).values('id', 'name')
+    return JsonResponse({'servers': list(servers)}) 
 
 def swap_manage(request):
     return render(request, 'swap_manage.html')
 
-def edit_swap(request):
+def edit_swap_post(request):
     if request.method == 'POST':
         item_image = request.FILES['item-image']
         # 這裡處理你的文件上傳邏輯
-    return render(request, 'edit_swap.html')
+    return render(request, 'edit_swap_post.html')
 
 def active_swap(request):
     return render(request, 'active_swap.html')
@@ -263,4 +348,4 @@ def update_profile(request):
     return render(request, 'account.html')
 
 def error_404(request, exception):
-    return render(request, 'error_404.html')
+    return render(request, '404.html', status=404)

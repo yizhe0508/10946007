@@ -1,10 +1,10 @@
 <!-- swap_manage.html -->
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/static/css/swap_manage.css">
+    <link rel="stylesheet" href="{% static 'css/swap_manage.css' %}">
 </head>
 
 <div class="swap-manage-container centered-content">

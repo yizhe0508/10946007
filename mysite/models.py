@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from django.contrib.auth import get_user_model
-import uuid
 
 
 class UserManager(BaseUserManager):
@@ -37,9 +35,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.AutoField(primary_key=True, verbose_name='ID')
     username = models.CharField(max_length=50, unique=True, verbose_name='使用者名稱')
     email = models.EmailField(verbose_name='信箱', max_length=255, unique=True)
-    password = models.CharField(max_length=128, verbose_name='password')
+    password = models.CharField(max_length=128, verbose_name='password') # 可移除
     nickname = models.CharField(max_length=50, blank=True, null=True, verbose_name='暱稱')
-    is_email_verified = models.BooleanField(default=False, verbose_name='信箱已驗證')
+    is_email_verified = models.BooleanField(default=False, verbose_name='信箱驗證')
     is_active = models.BooleanField(default=True, verbose_name='啟用')
     is_staff = models.BooleanField(default=False)  # 用來控制用戶是否可以登入 Django 的管理界面
     is_superuser = models.BooleanField(default=False)  # 用來控制用戶是否具有超級用戶權限
@@ -59,3 +57,50 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return self.is_active and (self.is_superuser or self.is_staff)
+    
+class Game(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    
+    def __str__(self):
+        return self.name
+
+class Server(models.Model):
+    name = models.CharField(max_length=100)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='servers')
+
+    class Meta:
+        unique_together = ('game', 'name')  # 確保在同一個遊戲中伺服器名稱唯一
+
+    def __str__(self):
+        return f"{self.game.name} - {self.name}"
+
+class SwapPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    server = models.ForeignKey(Server, on_delete=models.CASCADE)
+    item_name = models.CharField(max_length=200)
+    item_image = models.ImageField(upload_to='items/', blank=True, null=True) 
+    item_description = models.TextField()
+    desired_item = models.CharField(max_length=200)
+    swap_time = models.DateTimeField() 
+    swap_location = models.CharField(max_length=200) 
+    role_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    STATUS_CHOICES = [
+        ('WAITING', '等待交換'),
+        ('IN_PROGRESS', '交換進行中'),
+        ('COMPLETED', '交換已完成'),
+        ('CANCELLED', '交換已取消'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='WAITING')
+
+    def __str__(self):
+        return f"{self.item_name} - {self.user.username}"
+
+    def can_edit(self):
+        return self.status in ['WAITING', 'IN_PROGRESS']
+
+    def can_cancel(self):
+        return self.status in ['WAITING', 'IN_PROGRESS']

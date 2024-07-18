@@ -17,7 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from mysite import views
+from django.conf import settings
+from django.conf.urls.static import static
+from mysite.views import error_404
+from django.views.defaults import page_not_found
 
+
+handler404 = 'mysite.views.error_404'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,10 +35,17 @@ urlpatterns = [
     path('activation_invalid/', views.activate_invalid, name='activation_invalid'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),  
-    path('add_swap/', views.add_swap, name='add_swap'),
+    path('add_swap_post/', views.add_swap_post, name='add_swap_post'),
+    path('get_servers/', views.get_servers, name='get_servers'),
     path('swap_manage/', views.swap_manage, name='swap_manage'),
-    path('edit_swap/', views.edit_swap, name='edit_swap'),
+    path('edit_swap_post/', views.edit_swap_post, name='edit_swap_post'),
     path('active_swap/', views.active_swap, name='active_swap'), 
-    path('account/', views.update_profile, name='account'),   
-    path('404/', views.error_404, name='error_404'),
+    path('account/', views.update_profile, name='account'),
+    path('404/', page_not_found, {'exception': Exception('Page not Found')}),
+
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # 添加靜態文件路由
