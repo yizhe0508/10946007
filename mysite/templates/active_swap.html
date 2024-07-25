@@ -10,41 +10,142 @@
 <div class="exchange-container">
     <div class="exchange-details">
         <div class="exchange-header">交換資訊如下</div>
-        <div class="exchange-item">伺 服 器：<span id="server-info">XXXX</span></div>
-        <div class="exchange-item">交換時間：<span id="swapTime-info">XXXX</span></div>
-        <div class="exchange-item">交換地點：<span id="swapLocation-info">XXXX</span></div>
-        <div class="exchange-item">角色名稱：<span id="roleName-info">XXXX</span></div>
-        <div class="exchange-item">物品名稱：<span id="itemName-info">XXXX</span></div>
-        <div class="exchange-item">需求物品：<span id="needItem-info">XXXX</span></div>
+
+        <div class="exchange-item">
+            <span class="exchange-label">伺服器：</span>
+            <span id="server-info">{{ post.server.name }}</span>
+        </div>
+
+        <div class="exchange-item">
+            <span class="exchange-label">交換時間：</span>
+            <span id="swapTime-info">{{ post.swap_time|date:"Y/m/d H:i" }}</span>
+        </div>
+
+        <div class="exchange-item">
+            <span class="exchange-label">交換地點：</span>
+            <span id="swapLocation-info">{{ post.swap_location }}</span>
+        </div>
+
+        <div class="exchange-item">
+            <span class="exchange-label">角色名稱：</span>
+            <span id="roleName-info">{{ post.role_name }}</span>
+        </div>
+
+        <div class="exchange-item">
+            <span class="exchange-label">物品名稱：</span>
+            <span id="itemName-info">{{ post.item_name }}</span>
+        </div>
+
+        <div class="exchange-item">
+            <span class="exchange-label">需求物品：</span>
+            <span id="needItem-info">{{ post.desired_item }}</span>
+        </div>
     </div>
 
     <div class="message-board">
-        <div class="message-header">交換留言板</div>
-        <div class="message-content">
-            <div class="message">A先生：XXXXXXXXXXXXXXXXXXXXXX</div>
-            <div class="message">B先生：XXXXXXXXXXXXXXXXXXXXXX</div>
+        <div class="message-header">
+            <h4>交換留言板</h4>
         </div>
-        <div class="message-input">
-            <input class="message-placeholder" type="text" placeholder="請輸入訊息..." />
-            <button class="send-button">
-
-            </button>
+        <div id="message-list" class="message-content">
+            {% for message in swap_messages %}
+            <div class="message">
+                <strong>{{ message.sender.username }}:</strong>
+                {{ message.content }}
+                <small>{{ message.created_at|date:"Y-m-d H:i:s" }}</small>
+            </div>
+            {% endfor %}
         </div>
+        <form id="message-form" class="message-input">
+            {% csrf_token %}
+            <input type="text" id="message-input" class="message-placeholder" name="content" placeholder="輸入訊息...">
+            <button type="submit" class="send-button"></button>
+        </form>
     </div>
 </div>
 
 <div class="swap-active">
-    <button class="cancel-button">
-        <div class="active-button-text">取消交換</div>
-    <button class="complete-button">
-        <div class="active-button-text">完成交換</div>
-    </button>
+    {% if post.status == 'IN_PROGRESS' or post.status == 'PENDING_COMPLETION' %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="cancel">
+        <button type="submit" class="cancel-button">
+            <span class="active-button-text">取消交換</span>
+        </button>
+    </form>
+    {% endif %}
+
+    {% if post.status == 'IN_PROGRESS' and request.user == post.user %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="complete">
+        <button type="submit" class="complete-button">
+            <span class="active-button-text">完成交換</span>
+        </button>
+    </form>
+    {% elif post.status == 'PENDING_COMPLETION' and request.user == post.swapper %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="complete">
+        <button type="submit" class="complete-button">
+            <span class="active-button-text">確認完成</span>
+        </button>
+    </form>
+    {% elif post.status == 'PENDING_CANCELLATION' %}
+        {% if is_cancellation_initiator %}
+            <p>等待對方確認取消</p>
+        {% elif can_confirm_cancellation %}
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="cancel">
+                <button type="submit" class="cancel-button">
+                    <span class="active-button-text">確認取消</span>
+                </button>
+            </form>
+        {% endif %}
+    {% endif %}
 </div>
 
-</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var lastMessageId = parseInt('{{ messages.last.id|default:0 }}', 10);
 
+        function updateMessages() {
+            $.get('{% url "get_messages" post.id %}', { last_id: lastMessageId }, function (data) {
+                data.messages.forEach(function (message) {
+                    $('#message-list').append(
+                        '<div class="message">' +
+                        '<strong>' + message.sender + ':</strong> ' +
+                        message.content + ' ' +
+                        '<small>' + message.created_at + '</small>' +
+                        '</div>'
+                    );
+                    lastMessageId = message.id;
+                });
+                // 滾動到最新訊息
+                $('#message-list').animate({ scrollTop: $('#message-list')[0].scrollHeight }, 'slow');
+            });
+        }
 
+        setInterval(updateMessages, 5000);  // 每5秒更新一次
 
+        $('#message-form').submit(function (e) {
+            e.preventDefault();
+            var content = $('#message-input').val();
+            if (content) {
+                $.post('{% url "send_message" post.id %}', {
+                    content: content,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }, function (data) {
+                    if (data.status === 'success') {
+                        $('#message-input').val('');
+                        updateMessages();
 
+                    }
+                });
+            }
+        });
+    });
+</script>
 
 {% endblock %}

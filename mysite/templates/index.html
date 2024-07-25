@@ -92,7 +92,23 @@
                 </div>
                 <div class="swap-button-container">
                     <button class="swap-button">
-                        <div class="swap-button-label">我要交換</div>
+                            {% if user.is_authenticated %}
+                                {% if post.status == 'WAITING' and post.user != user %}
+                                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">我要交換</a>
+                                {% elif post.status == 'IN_PROGRESS' or post.status == 'PENDING_COMPLETION' or post.status == 'PENDING_CANCELLATION' %}
+                                    {% if user == post.user or user == post.swapper %}                                    
+                                        <a href="{% url 'active_swap' post.id %}" class="swap-button-label">進入交換</a>
+                                    {% else %}
+                                        <span class="swap-button-label disabled">交換進行中</span>
+                                    {% endif %}    
+                                {% elif post.user == user %}
+                                    <span class="swap-button-label disabled">這是您的貼文</span>
+                                {% else %}
+                                    <span class="swap-button-label disabled">交換進行中</span>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'login' %}" class="swap-button-label">我要交換</a>
+                            {% endif %}
                     </button>
                 </div>
             </div>

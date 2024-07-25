@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
@@ -13,18 +13,22 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from .models import SwapPost, Game, Server, User
+from .models import SwapPost, Game, Server, User, SwapMessage
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_POST
+from django.utils import timezone
+from datetime import timedelta
+from django.contrib import messages as django_messages
 
 def index(request):
-    swap_posts = SwapPost.objects.all().order_by('-created_at')
+    swap_posts = SwapPost.objects.exclude(status='COMPLETED').order_by('-created_at')
     
-    # 每頁顯示 10 個貼文，你可以根據需要調整這個數字
+    # 每頁顯示 5 個貼文
     paginator = Paginator(swap_posts, 5)
     
     page_number = request.GET.get('page')
@@ -249,17 +253,215 @@ def get_servers(request):
     servers = Server.objects.filter(game_id=game_id).values('id', 'name')
     return JsonResponse({'servers': list(servers)}) 
 
+@login_required
 def swap_manage(request):
-    return render(request, 'swap_manage.html')
+    user_posts = SwapPost.objects.filter(user=request.user).order_by('-created_at')
+    
+    paginator = Paginator(user_posts, 5)  # 每頁顯示 5 個貼文
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'swap_posts': page_obj,
+    }
+    
+    return render(request, 'swap_manage.html', context)
 
-def edit_swap_post(request):
+@login_required
+def update_swap_status(request, post_id):
+    post = get_object_or_404(SwapPost, id=post_id, user=request.user)
     if request.method == 'POST':
-        item_image = request.FILES['item-image']
-        # 這裡處理你的文件上傳邏輯
-    return render(request, 'edit_swap_post.html')
+        new_status = request.POST.get('status')
+        if new_status in dict(SwapPost.STATUS_CHOICES).keys():
+            post.status = new_status
+            post.save()
+            messages.success(request, '交換狀態已更新。')
+        else:
+            messages.error(request, '無效的狀態。')
+    return redirect('swap_manage')
 
-def active_swap(request):
-    return render(request, 'active_swap.html')
+@login_required
+@require_POST
+def delete_swap_post(request, post_id):
+    try:
+        post = SwapPost.objects.get(id=post_id, user=request.user)
+        post.delete()
+        return JsonResponse({'success': True})
+    except SwapPost.DoesNotExist:
+        return JsonResponse({'success': False, 'error': '貼文不存在或您沒有權限刪除'})
+
+@login_required
+def edit_swap_post(request, post_id):
+    post = get_object_or_404(SwapPost, id=post_id, user=request.user)
+    
+    if request.method == 'POST':
+        game_id = request.POST.get('game')
+        server_id = request.POST.get('server')
+        item_name = request.POST.get('itemName')
+        item_img = request.FILES.get('itemImg')
+        item_description = request.POST.get('itemDescribe')
+        desired_item = request.POST.get('desired_item')
+        swap_time = request.POST.get('swapTime')
+        swap_location = request.POST.get('swapLocation')
+        role_name = request.POST.get('roleName')
+
+        # 确保所有必要的字段都有值
+        if not game_id or not server_id or not item_name or not item_description or not desired_item or not swap_time or not swap_location or not role_name:
+            messages.error(request, '所有欄位都是必填的！')
+            return render(request, 'edit_swap_post.html', {'post': post, 'games': Game.objects.all(), 'servers': Server.objects.filter(game_id=game_id)})
+
+        try:
+            game = Game.objects.get(id=game_id)
+            server = Server.objects.get(id=server_id, game=game)  # 確保伺服器和遊戲對應
+        except Game.DoesNotExist:
+            messages.error(request, '選擇的遊戲不存在。')
+            return redirect('edit_swap_post', post_id=post_id)
+        except Server.DoesNotExist:
+            messages.error(request, '選擇的伺服器不存在。')
+            return redirect('edit_swap_post', post_id=post_id)
+
+        # 將 swap_time 轉換為 datetime 對象
+        swap_time = parse_datetime(swap_time)
+        
+        # 圖片處理
+        if item_img:
+            img = Image.open(item_img)
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
+            output = BytesIO()
+            img.save(output, format='JPEG', quality=85)
+            item_img = InMemoryUploadedFile(
+                output, 'ImageField', f'{item_name}.jpg', 'image/jpeg', output.tell(), None
+            )
+
+        # 更新交換貼文
+        try:
+            post.game = game
+            post.server = server
+            post.item_name = item_name
+            if item_img:
+                post.item_image = item_img
+            post.item_description = item_description
+            post.desired_item = desired_item
+            post.swap_time = swap_time
+            post.swap_location = swap_location
+            post.role_name = role_name
+            post.save()
+            messages.success(request, '交換貼文已成功更新！')
+            return redirect('swap_manage')
+        except Exception as e:
+            messages.error(request, f'發生錯誤: {e}')
+
+    else:
+        context = {
+            'post': post,
+            'games': Game.objects.all(),
+            'servers': Server.objects.filter(game=post.game)
+        }
+        return render(request, 'edit_swap_post.html', context)
+
+@login_required
+def active_swap(request, post_id):
+    post = get_object_or_404(SwapPost, id=post_id)
+    
+    if post.status == 'WAITING' and request.user != post.user:
+        post.status = 'IN_PROGRESS'
+        post.swapper = request.user
+        post.save()
+        messages.success(request, '您已成功加入交换!')    
+
+    if request.user != post.user and request.user != post.swapper:
+        django_messages.error(request, '您沒有權限訪問此頁面。')
+        return redirect('index')
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'complete':
+            if post.status == 'IN_PROGRESS' and request.user == post.user:
+                post.status = 'PENDING_COMPLETION'
+                post.confirmation_deadline = timezone.now() + timedelta(hours=24)
+                post.save()
+                django_messages.success(request, '等待交換者確認完成。')
+            elif post.status == 'PENDING_COMPLETION' and request.user == post.swapper:
+                post.status = 'COMPLETED'
+                post.save()
+                django_messages.success(request, '交換已完成。')
+                return redirect('index')
+        
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'cancel':
+            if post.status == 'IN_PROGRESS':
+                post.status = 'PENDING_CANCELLATION'
+                post.cancellation_initiator = request.user
+                post.confirmation_deadline = timezone.now() + timedelta(hours=24)
+                post.save()
+                messages.success(request, '等待對方確認取消。')
+            elif post.status == 'PENDING_CANCELLATION':
+                # 檢查是否是另一方（非發起取消的一方）在確認
+                if request.user != post.cancellation_initiator:
+                    post.status = 'CANCELLED'
+                    post.save()
+                    messages.success(request, '交換已取消。')
+                    return redirect('index')
+                else:
+                    messages.error(request, '您已發起取消請求，等待對方確認。')
+        
+        return redirect('active_swap', post_id=post_id)
+    
+    # 處理超時
+    if post.confirmation_deadline and timezone.now() > post.confirmation_deadline:
+        if post.status in ['PENDING_COMPLETION', 'PENDING_CANCELLATION']:
+            post.status = 'CANCELLED'
+            post.save()
+            django_messages.warning(request, '由於超過確認期限，交換已自動取消。')
+    
+    swap_messages = post.messages.all()
+    context = {
+        'post': post,
+        'swap_messages': swap_messages,
+        'is_cancellation_initiator': post.status == 'PENDING_CANCELLATION' and request.user == post.cancellation_initiator,
+        'can_confirm_cancellation': post.status == 'PENDING_CANCELLATION' and request.user != post.cancellation_initiator,
+    }
+    return render(request, 'active_swap.html', context)
+
+@login_required
+@require_POST
+def send_message(request, post_id):
+    post = get_object_or_404(SwapPost, id=post_id)
+    content = request.POST.get('content')
+    if content:
+        message = SwapMessage.objects.create(
+            swap_post=post,
+            sender=request.user,
+            content=content
+        )
+        return JsonResponse({
+            'status': 'success',
+            'message': {
+                'id': message.id,
+                'sender': message.sender.username,
+                'content': message.content,
+                'created_at': message.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            }
+        })
+    return JsonResponse({'status': 'error', 'message': 'Content is required'})
+
+@login_required
+def get_messages(request, post_id):
+    post = get_object_or_404(SwapPost, id=post_id)
+    last_message_id = request.GET.get('last_id')
+    messages = post.messages.filter(id__gt=last_message_id) if last_message_id else post.messages.all()
+    return JsonResponse({
+        'messages': [{
+            'id': message.id,
+            'sender': message.sender.username,
+            'content': message.content,
+            'created_at': message.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        } for message in messages]
+    })
 
 @login_required
 def update_profile(request):

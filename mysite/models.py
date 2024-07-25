@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
             username=username,
             password=password,
         )
+        user.set_password(password)
         user.is_email_verified = True
         user.is_superuser = True
         user.is_staff = True
@@ -87,12 +88,19 @@ class SwapPost(models.Model):
     role_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    swapper = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='swap_requests')
+    is_owner_confirmed = models.BooleanField(default=False)
+    is_swapper_confirmed = models.BooleanField(default=False)
+    confirmation_deadline = models.DateTimeField(null=True, blank=True)
+    cancellation_initiator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='cancellation_initiated_swaps')
 
     STATUS_CHOICES = [
-        ('WAITING', '等待交換'),
-        ('IN_PROGRESS', '交換進行中'),
-        ('COMPLETED', '交換已完成'),
-        ('CANCELLED', '交換已取消'),
+        ('WAITING', '待交換'),
+        ('IN_PROGRESS', '進行中'),
+        ('PENDING_COMPLETION', '等待確認完成'),
+        ('PENDING_CANCELLATION', '等待確認取消'),
+        ('COMPLETED', '已完成'),
+        ('CANCELLED', '已取消'),
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='WAITING')
 
@@ -104,3 +112,15 @@ class SwapPost(models.Model):
 
     def can_cancel(self):
         return self.status in ['WAITING', 'IN_PROGRESS']
+
+class SwapMessage(models.Model):
+    swap_post = models.ForeignKey(SwapPost, on_delete=models.CASCADE, related_name='messages')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f'{self.sender.username}: {self.content[:50]}'

@@ -9,8 +9,8 @@
 .exchange-container {
     background: #ffffff;
     border-radius: 4px;
-    width: 800px;
-    height: 490px;
+    width: 1100px;
+    height: 460px;
     position: relative;
     box-shadow: 0px 1px 13px 0px rgba(0, 0, 0, 0.05);
     overflow: hidden;
@@ -19,7 +19,7 @@
     margin: auto;
     flex-direction: row;
     justify-content: center;
-    gap: 300px;
+    gap: 50px;
 }
 
 /* 交換詳細信息區域樣式 */
@@ -50,44 +50,45 @@
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
+    white-space: nowrap;
 }
 
 /* 訊息板區域樣式 */
 .message-board {
     border-radius: 4px;
     border: 1.5px solid #000000;
-    padding: 12px 16px 0px 16px;
+    padding: 12px 0px 0px 0px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
-    width: 296px;
+    width: 496px;
     height: 408px;
     position: relative;
-
-
+    overflow: hidden;
 }
 
 .message-header {
     color: #000000;
-    text-align: left;
     font-family: "Poppins-Regular", sans-serif;
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
+    text-align: center;
+    margin: auto;
 }
 
 .message-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 267px;
-    height: 368px;
+    flex-grow: 1;
     overflow-y: auto;
-    position: relative;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+    margin-bottom: 10px;
+    padding: 0 8px 0px 8px;
 }
 
 .message {
@@ -97,24 +98,41 @@
     font-size: 14px;
     line-height: 21px;
     font-weight: 400;
-    width: 267px;
+    width: 100%;
+    padding: 4px 0;
+    border-radius: 8px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.message strong {
+    word-break: keep-all;
+    white-space: nowrap;
+    margin-right: 5px;
+}
+
+.message small {
+    white-space: nowrap;
+    margin-left: auto;
+    padding-left: 5px;
 }
 
 /* 訊息輸入區域樣式 */
 .message-input {
     border-radius: 4px;
-    border-style: solid;
-    border-color: var(--text2, #000000);
-    border-width: 1.5px;
-    padding: 12px 0px 12px 16px;
+    border: 1.5px solid var(--text2, #000000);
+    padding: 8px 12px;
     display: flex;
     flex-direction: row;
-    gap: 50px;
     align-items: center;
-    justify-content: flex-start;
-    width: 296px;
+    justify-content: space-between;
+    width: 100%;
     height: 40px;
-    position: relative;
+    margin-top: auto;
+    
 }
 
 .message-placeholder {
@@ -128,6 +146,8 @@
     font-weight: var(--title-16px-regular-font-weight, 400);
     position: relative;
     border: none;
+    flex-grow: 1;
+    margin-right: 10px;
 }
 
 .message-placeholder:focus {
@@ -141,7 +161,10 @@
     height: 24px;
     position: relative;
     overflow: visible;
-    border: none
+    border: none;
+    flex-shrink: 0;
+    cursor: pointer;
+    /* 當鼠標懸停時顯示為手型 */
 }
 
 .swap-active {
@@ -169,7 +192,8 @@
 }
 
 .cancel-button:hover {
-    background: var(--button3, #E9677F);}
+    background: var(--button3, #E9677F);
+}
 
 .complete-button {
     background: var(--button1, #52d880);
@@ -199,3 +223,4 @@
     font-weight: var(--title-12px-regular-font-weight, 400);
     position: relative;
 }
+

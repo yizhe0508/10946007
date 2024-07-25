@@ -404,6 +404,7 @@
     line-height: var(--title-16px-medium-line-height, 24px);
     font-weight: var(--title-16px-medium-font-weight, 500);
     position: relative;
+    text-decoration: none;
 }
 
 .swap-info-container {

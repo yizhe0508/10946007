@@ -1,12 +1,13 @@
-<!-- edit_swap.html -->
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+
 <head>
     <link rel="stylesheet" href="{% static 'css/add_swap_post.css' %}">
 </head>
 
 <form class="swap-post-container" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
     <div class="swap-post-header">
         <div class="header-title">編輯交換貼文</div>
     </div>
@@ -15,56 +16,61 @@
             <div class="section-title">物品資訊</div>
             <div class="form-field">
                 <div class="field-label">遊戲名稱</div>
-                <select class="drop-down-menu" id="gameName">
-                    <option value=""></option>
-                    <option value="game1">遊戲1</option>
-                    <option value="game2">遊戲2</option>
-                    <option value="game3">遊戲3</option>
+                <select class="drop-down-menu" id="gameName" name="game">
+                    {% for game in games %}
+                    <option value="{{ game.id }}" {% if game.id == post.game.id %}selected{% endif %}>{{ game.name }}
+                    </option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-field">
                 <div class="field-label">伺服器</div>
-                <select class="drop-down-menu" id="serverName">
-                    <option value=""></option>
-                    <option value="game1">伺服器1</option>
-                    <option value="game2">伺服器2</option>
-                    <option value="game3">伺服器3</option>
+                <select class="drop-down-menu" id="serverName" name="server">
+                    {% for server in servers %}
+                    <option value="{{ server.id }}" {% if server.id == post.server.id %}selected{% endif %}>{{ server.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-field">
                 <div class="field-label">物品名稱</div>
-                <input class="input-field" type="text" name="itemName" placeholder="">
+                <input class="input-field" type="text" name="itemName" value="{{ post.item_name }}">
             </div>
             <div class="form-field">
                 <div class="form-field-img">
                     <div class="field-label">物品圖片</div>
-                    <input type="file" id="itemImg" class="hidden-input">
+                    <input type="file" id="itemImg" name="itemImg" class="hidden-input">
                     <label for="itemImg" class="upload-button">上傳</label>
                 </div>
-                <div class="upload-img"></div>
+                <div class="upload-img">
+                    <img src="{% if post.item_image %}{{ post.item_image.url }}{% endif %}" alt="預覽圖片"style="{% if not post.item_image %}display:none;{% endif %}">
+                </div>
             </div>
             <div class="form-field">
                 <div class="field-label">物品描述</div>
-                <input class="input-field" type="text" name="item-describe" id="itemDescribe" placeholder="">
+                <input class="input-field" type="text" name="itemDescribe" id="itemDescribe"
+                    value="{{ post.item_description }}">
             </div>
             <div class="form-field">
                 <div class="field-label">需求物品</div>
-                <input class="input-field" type="text" name="need-item" id="needItem" placeholder="">
+                <input class="input-field" type="text" name="desired_item" id="desired_item"
+                    value="{{ post.desired_item }}">
             </div>
         </div>
         <div class="form-swap-group">
             <div class="section-title">交換資訊</div>
             <div class="form-field">
                 <div class="field-label">交換時間</div>
-                <input class="input-field" type="text" name="swap-time" id="swapTime" placeholder="">
+                <input class="input-field" type="datetime-local" name="swapTime" id="swapTime"
+                    value="{{ post.swap_time|date:'Y-m-d\TH:i' }}">
             </div>
             <div class="form-field">
                 <div class="field-label">交換地點</div>
-                <input class="input-field" type="text" name="swap-location" id="swapLocation" placeholder="">
+                <input class="input-field" type="text" name="swapLocation" id="swapLocation"
+                    value="{{ post.swap_location }}">
             </div>
             <div class="form-field">
                 <div class="field-label">角色名稱</div>
-                <input class="input-field" type="text" name="role-name" id="swapRole" placeholder="">
+                <input class="input-field" type="text" name="roleName" id="swapRole" value="{{ post.role_name }}">
             </div>
         </div>
     </div>
@@ -76,13 +82,58 @@
 </form>
 
 <script>
-    document.querySelector('#itemImg').addEventListener('change', function (e) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            document.querySelector('.upload-img').style.backgroundImage = 'url(' + e.target.result + ')';
-        };
-        reader.readAsDataURL(e.target.files[0]);
+    document.addEventListener('DOMContentLoaded', function () {
+        let gameSelect = document.querySelector('#gameName');
+        let serverSelect = document.querySelector('#serverName');
+
+        gameSelect.addEventListener('change', function () {
+            let gameId = gameSelect.value;
+            if (gameId) {
+                fetch(`/get_servers/?game_id=${gameId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        serverSelect.innerHTML = '<option value="">選擇伺服器</option>';
+                        data.servers.forEach(server => {
+                            serverSelect.innerHTML += `<option value="${server.id}">${server.name}</option>`;
+                        });
+                    });
+            } else {
+                serverSelect.innerHTML = '<option value="">選擇伺服器</option>';
+            }
+        });
     });
+
+    document.querySelector('#itemImg').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const uploadImg = document.querySelector('.upload-img');
+            let previewImg = uploadImg.querySelector('img');
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (file && file.type.startsWith('image/')) {
+                if (file.size > maxSize) {
+                    alert('圖片大小不能超過5MB');
+                    e.target.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    if (!previewImg) {
+                        previewImg = document.createElement('img');
+                        uploadImg.appendChild(previewImg);
+                    }
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block'; // 確保圖片可見
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('請選擇有效的圖片文件');
+                e.target.value = '';
+                if (previewImg) {
+                    previewImg.style.display = 'none'; // 如果選擇了無效文件，隱藏預覽圖
+                }
+            }
+        });
 </script>
 
 {% endblock %}
