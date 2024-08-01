@@ -46,8 +46,6 @@ urlpatterns = [
     path('get_messages/<int:post_id>/', views.get_messages, name='get_messages'),
     path('account/', views.update_profile, name='account'),
     path('404/', page_not_found, {'exception': Exception('Page not Found')}),
-
-
 ]
 
 if settings.DEBUG:

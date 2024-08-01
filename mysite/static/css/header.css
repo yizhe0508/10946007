@@ -31,7 +31,7 @@
 .navbar-links .nav-link {
     margin-right: 48px;
     /* 調整連結之間的間距 */
-    color: #000;
+    color: #383836;
     /* 文字顏色 */
     text-decoration: none;
     /* 移除連結的下劃線 */
@@ -40,6 +40,13 @@
 .navbar-links .nav-link:hover {
     color: #007bff;
     /* 滑鼠懸停時的文字顏色 */
+}
+
+.navbar-links .nav-link.active {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+        /* 調整下底線與文字的距離 */
 }
 
 .divider {

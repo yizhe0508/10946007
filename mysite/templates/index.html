@@ -19,29 +19,38 @@
                 <div class="search-label">搜尋物品</div>
             </div>
         </div>
-        <div class="search-options">
-            <div class="search-option">
-                <select class="search-option-select" id="gameSelect">
-                    <option class="search-option-gamelabel" value="">選擇遊戲</option>
-                    <option value="game1">遊戲1</option>
-                    <option value="game2">遊戲2</option>
-                    <option value="game3">遊戲3</option>
-                </select>
+   
+        <form action="{% url 'index' %}" method="GET" id="search-form">
+            <div class="search-options">
+                <div class="search-option">
+                    <select class="search-option-select" name="game" id="game-select">
+                        <option value="">選擇遊戲</option>
+                        {% for game in games %}
+                        <option value="{{ game.id }}" {% if game.id|stringformat:"s" == selected_game %}selected{% endif %}>
+                            {{ game.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="search-option">
+                    <select class="search-option-select" name="server" id="server-select">
+                        <option value="">伺服器　</option>
+                        {% for server in servers %}
+                        <option value="{{ server.id }}" {% if server.id|stringformat:"s" == selected_server %}selected{% endif %}>
+                            {{ server.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="search-option">
+                    <input type="text" class="search-option-input" name="item_name" placeholder="物品關鍵字" value="{{ item_name }}">
+                    <button type="submit" class="search-button">
+                        <img src="{% static 'images/search-icon.png' %}" alt="搜尋" class="search-option-icon">
+                        <input type="hidden" name="search" value="true">
+                    </button>
+                </div>
             </div>
-            <div class="search-option">
-                <select class="search-option-select" id="serverSelect">
-                    <option value="">選擇伺服器</option>
-                    <option value="server1">伺服器1</option>
-                    <option value="server2">伺服器2</option>
-                    <option value="server3">伺服器3</option>
-                </select>
-            </div>
-            <div class="search-option">
-                <input type="text" class="search-option-input" id="itemNameInput" placeholder="輸入物品名稱">
-                <button class="search-button" onclick="search()"><img class="search-option-icon"
-                        src="/static/images/search-icon.png" /></button>
-            </div>
-        </div>
+        </form>
     </div>
     <div class="search-divider"></div>
 
@@ -94,10 +103,10 @@
                     <button class="swap-button">
                             {% if user.is_authenticated %}
                                 {% if post.status == 'WAITING' and post.user != user %}
-                                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">我要交換</a>
+                                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">可交換</a>
                                 {% elif post.status == 'IN_PROGRESS' or post.status == 'PENDING_COMPLETION' or post.status == 'PENDING_CANCELLATION' %}
                                     {% if user == post.user or user == post.swapper %}                                    
-                                        <a href="{% url 'active_swap' post.id %}" class="swap-button-label">進入交換</a>
+                                        <a href="{% url 'active_swap' post.id %}" class="swap-button-label">返回交換</a>
                                     {% else %}
                                         <span class="swap-button-label disabled">交換進行中</span>
                                     {% endif %}    
@@ -107,7 +116,7 @@
                                     <span class="swap-button-label disabled">交換進行中</span>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url 'login' %}" class="swap-button-label">我要交換</a>
+                                <a href="{% url 'login' %}" class="swap-button-label">可交換</a>
                             {% endif %}
                     </button>
                 </div>
@@ -141,6 +150,8 @@
             </div>
         </div>
         <div class="swap-divider"></div>
+        {% empty %}
+        <p>找不到符合條件的交換貼文。</p>
         {% endfor %}
 
 
@@ -175,6 +186,35 @@
     <span class="close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="img01">
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const gameSelect = document.getElementById('game-select');
+        const serverSelect = document.getElementById('server-select');
+        const selectedServer = "{{ selected_server }}";
+
+        function updateServers(gameId) {
+            fetch(`/get_servers?game_id=${gameId}`)
+                .then(response => response.json())
+                .then(data => {
+                    serverSelect.innerHTML = '<option value="">伺服器</option>';
+                    data.servers.forEach(server => {
+                        const option = document.createElement('option');
+                        option.value = server.id;
+                        option.textContent = server.name;
+                        if (server.id.toString() === selectedServer) {
+                            option.selected = true;
+                        }
+                        serverSelect.appendChild(option);
+                    });
+                });
+        }
+
+        gameSelect.addEventListener('change', function () {
+            updateServers(this.value);
+        });
+    });
+</script>
 
 <script>
     function showModal(event, imgSrc) {

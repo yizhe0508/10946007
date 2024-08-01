@@ -107,11 +107,34 @@ class SwapPost(models.Model):
     def __str__(self):
         return f"{self.item_name} - {self.user.username}"
 
-    def can_edit(self):
-        return self.status in ['WAITING', 'IN_PROGRESS']
+    def can_edit(self, user):
+        """
+        檢查用戶是否可以編輯這個交換貼文
+        只有創建者可以在等待狀態或進行中狀態時編輯
+        """
+        return user == self.user and self.status in ['WAITING', 'IN_PROGRESS']
 
-    def can_cancel(self):
-        return self.status in ['WAITING', 'IN_PROGRESS']
+    def can_delete(self, user):
+        """
+        檢查用戶是否可以刪除這個交換貼文
+        只有創建者可以在等待狀態時刪除
+        """
+        return user == self.user and self.status == 'WAITING'
+
+    def can_cancel(self, user):
+        """
+        檢查用戶是否可以取消這個交換
+        創建者和交換者都可以在進行中狀態時取消
+        """
+        return (user == self.user or user == self.swapper) and self.status == 'IN_PROGRESS'
+
+    def get_user_role(self, user):
+        if user == self.user:
+            return "creator"
+        elif user == self.swapper:
+            return "participant"
+        else:
+            return None
 
 class SwapMessage(models.Model):
     swap_post = models.ForeignKey(SwapPost, on_delete=models.CASCADE, related_name='messages')

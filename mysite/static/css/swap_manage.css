@@ -16,10 +16,10 @@
 .swap-header {
     width: 80%;
     margin: 0 auto;
-    height: 103px;
+    height: auto;
     display: flex;
-    flex-direction: row;
-    gap: 250px;
+    flex-direction: column;
+    gap: 20px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
@@ -61,6 +61,37 @@
     line-height: var(--title-16px-semibold-line-height, 20px);
     font-weight: var(--title-16px-semibold-font-weight, 600);
     position: relative;
+}
+
+.swap-filter-buttons {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.swap-filter-button {
+    background-color: #f5f5f5;
+    border: none;
+    color: #000000;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.swap-filter-button.active {
+    background-color: #315cea;
+    color: #ffffff;
+}
+
+.swap-filter-button:hover {
+    background-color: #a0bce0;
 }
 
 /*------------swaplist CSS------------------*/
@@ -226,12 +257,10 @@
 }
 
 .button-container {
-    padding: 0px 14px 0px 14px;
+    padding: 0 50px;
     display: flex;
     flex-direction: row;
-    gap: 180px;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     flex-shrink: 0;
     width: 620px;
     position: relative;
@@ -245,9 +274,12 @@
     line-height: var(--title-16px-medium-line-height, 24px);
     font-weight: var(--title-16px-medium-font-weight, 500);
     position: relative;
+    text-align: center;
 }
 
 .edit-button {
+    width: 160px;
+    height: 44px;
     text-decoration: none;
     border: none;
     background: var(--button1, #52d880);
@@ -256,10 +288,12 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
     position: relative;
+    margin-right: auto;
+    /* 將編輯按鈕推到左側 */
 }
 
 .edit-button:hover {
@@ -338,9 +372,8 @@
 }
 
 .swapstate-button.completed:hover {
-    cursor: default;
+    background: var(--hover-button1, #a9ebbf);
 }
-
 
 .swap-info-container {
     padding: 0px 2px 0px 0px;

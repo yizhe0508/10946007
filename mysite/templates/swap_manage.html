@@ -14,6 +14,10 @@
             </div>
             <div class="swap-label">交換管理</div>
         </div>
+        <div class="swap-filter-buttons">
+            <button id="my-posts-button" class="swap-filter-button active">我是貼文者</button>
+            <button id="participated-posts-button" class="swap-filter-button">我是參與者</button>
+        </div>
     </div>
 
     {% for post in swap_posts %}
@@ -53,15 +57,18 @@
                     {{ post.desired_item }}</div>
             </div>
             <div class="button-container">
-                <a href="{% url 'edit_swap_post' post.id %}" class="edit-button">
-                    <div class="edit-button-label">編輯交換</div>
-                </a>
+                {% if request.user == post.user and post.status == 'WAITING' %}
+                    <a href="{% url 'edit_swap_post' post.id %}" class="edit-button">
+                        <span class="edit-button-label">編輯交換</span>
+                    </a>
+                {% endif %}
+
                 <div class="swapstate-button {% if post.status == 'COMPLETED' %}completed
-                                            {% elif post.status == 'IN_PROGRESS' %}in-progress
-                                            {% elif post.status == 'PENDING_COMPLETION' %}pending-completion
-                                            {% elif post.status == 'PENDING_CANCELLATION' %}pending-cancellation
-                                            {% elif post.status == 'CANCELLED' %}cancelled
-                                            {% else %}pending{% endif %}">
+                                             {% elif post.status == 'IN_PROGRESS' %}in-progress
+                                             {% elif post.status == 'PENDING_COMPLETION' %}pending-completion
+                                             {% elif post.status == 'PENDING_CANCELLATION' %}pending-cancellation
+                                             {% elif post.status == 'CANCELLED' %}cancelled
+                                             {% else %}pending{% endif %}">
                     {% if post.status == 'IN_PROGRESS' %}
                     <a href="{% url 'active_swap' post.id %}" class="swap-button-label">{{ post.get_status_display }}</a>
                     {% elif post.status == 'PENDING_COMPLETION' %}
@@ -101,12 +108,15 @@
                 </div>
             </div>
         </div>
+
+        {% if request.user == post.user and post.status == 'WAITING' %}
         <div class="delete-container">
             <div class="separator-line-right"></div>
             <button class="delete-button" onclick="deletePost('{{ post.id }}')">
                 <img src="{% static 'images/icon-delete.png' %}" alt="delete">
             </button>
         </div>
+        {% endif %}
     </div>
     <div class="swap-divider"></div>
     {% endfor %}
@@ -172,6 +182,30 @@
         }
         return cookieValue;
     }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const myPostsButton = document.getElementById('my-posts-button');
+        const participatedPostsButton = document.getElementById('participated-posts-button');
+
+        myPostsButton.addEventListener('click', function () {
+            window.location.href = '{% url "swap_manage" %}?type=my_posts';
+        });
+
+        participatedPostsButton.addEventListener('click', function () {
+            window.location.href = '{% url "swap_manage" %}?type=participated_posts';
+        });
+
+        // 設置活躍按鈕
+        if ('{{ post_type }}' === 'participated_posts') {
+            participatedPostsButton.classList.add('active');
+            myPostsButton.classList.remove('active');
+        } else {
+            myPostsButton.classList.add('active');
+            participatedPostsButton.classList.remove('active');
+        }
+    });
 </script>
 
 {% endblock %}

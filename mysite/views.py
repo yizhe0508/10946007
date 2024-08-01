@@ -24,10 +24,36 @@ from django.views.decorators.http import require_POST
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages as django_messages
+from django.db.models import Q
+
 
 def index(request):
-    swap_posts = SwapPost.objects.exclude(status='COMPLETED').order_by('-created_at')
+    swap_posts = SwapPost.objects.exclude(status__in=['COMPLETED', 'CANCELLED']).order_by('-updated_at', '-created_at')
     
+    selected_game = request.GET.get('game')
+    selected_server = request.GET.get('server')
+    item_name = request.GET.get('item_name', '')
+    
+    # 只有當用戶提交了搜索時才應用過濾器
+    if 'search' in request.GET:
+        query = Q()
+        if selected_game:
+            query &= Q(game_id=int(selected_game))
+        if selected_server:
+            query &= Q(server_id=int(selected_server))
+        if item_name:
+            query &= Q(item_name__icontains=item_name)
+
+        swap_posts = swap_posts.filter(query)
+    print(f"Selected server: {request.GET.get('server')}")
+
+
+    games = Game.objects.all()
+    servers = []  # 初始化為空列表
+
+    if selected_game:
+        servers = Server.objects.filter(game_id=selected_game)
+
     # 每頁顯示 5 個貼文
     paginator = Paginator(swap_posts, 5)
     
@@ -35,7 +61,12 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     
     context = {
-        'swap_posts': page_obj,
+        'games': games,
+        'servers': servers,
+        'swap_posts': swap_posts,
+        'selected_game': selected_game,
+        'selected_server': selected_server,
+        'item_name': item_name,
     }
     
     if request.user.is_authenticated:
@@ -255,14 +286,26 @@ def get_servers(request):
 
 @login_required
 def swap_manage(request):
-    user_posts = SwapPost.objects.filter(user=request.user).order_by('-created_at')
+    # 獲取用戶創建的交換貼文
+    user_posts = SwapPost.objects.filter(user=request.user).order_by('-updated_at', '-created_at')
     
-    paginator = Paginator(user_posts, 5)  # 每頁顯示 5 個貼文
+    # 獲取用戶作為交換者參與的交換貼文
+    swapper_posts = SwapPost.objects.filter(swapper=request.user).order_by('-updated_at', '-created_at')
+    
+    post_type = request.GET.get('type', 'my_posts')  # 預設顯示用戶自己的貼文
+    
+    if post_type == 'participated_posts':
+        all_posts = swapper_posts
+    else:
+        all_posts = user_posts
+    
+    paginator = Paginator(all_posts, 5)  # 每頁顯示 5 個貼文
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     context = {
         'swap_posts': page_obj,
+        'post_type': post_type,
     }
     
     return render(request, 'swap_manage.html', context)
@@ -283,6 +326,9 @@ def update_swap_status(request, post_id):
 @login_required
 @require_POST
 def delete_swap_post(request, post_id):
+    if not post.can_cancel(request.user):
+        return JsonResponse({'success': False, 'error': '您沒有權限刪除此貼文。'})
+
     try:
         post = SwapPost.objects.get(id=post_id, user=request.user)
         post.delete()
@@ -294,6 +340,10 @@ def delete_swap_post(request, post_id):
 def edit_swap_post(request, post_id):
     post = get_object_or_404(SwapPost, id=post_id, user=request.user)
     
+    if not post.can_edit(request.user):
+        messages.error(request, '您沒有權限編輯此貼文。')
+        return redirect('swap_manage')
+
     if request.method == 'POST':
         game_id = request.POST.get('game')
         server_id = request.POST.get('server')
