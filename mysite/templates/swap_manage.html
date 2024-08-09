@@ -121,29 +121,29 @@
     <div class="swap-divider"></div>
     {% endfor %}
 
-    <!-- 分頁 -->
-    {% if swap_posts.paginator.num_pages >= 1 %}
+    <!-- 在分頁部分 -->
     <div class="pagination">
-        <div class="current-page">第 <span id="page-number">{{ swap_posts.number }}</span> 頁</div>
-            <div class="change-page">
-                {% if swap_posts.has_previous %}
-                <a href="?page={{ swap_posts.previous_page_number }}" class="pagination-button">上一頁</a>
-                {% endif %}
+        <div class="current-page">
+            第 <span id="page-number">{{ swap_posts.number }}</span> 頁
+        </div>
+        <div class="change-page">
+            {% if swap_posts.has_previous %}
+                <a href="?type={{ post_type }}&page={{ swap_posts.previous_page_number }}" class="pagination-button">上一頁</a>
+            {% endif %}
 
-                {% for i in swap_posts.paginator.page_range %}
+            {% for i in swap_posts.paginator.page_range %}
                 {% if swap_posts.number == i %}
-                <a href="#" class="pagination-button current">{{ i }}</a>
-                {% elif i > swap_posts.number|add:'-3' and i < swap_posts.number|add:'3' %} <a href="?page={{ i }}"
-                    class="pagination-button">{{ i }}</a>
-                    {% endif %}
-                    {% endfor %}
+                    <a href="#" class="pagination-button current">{{ i }}</a>
+                {% elif i > swap_posts.number|add:'-3' and i < swap_posts.number|add:'3' %} <a
+                    href="?type={{ post_type }}&page={{ i }}" class="pagination-button">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
 
-                    {% if swap_posts.has_next %}
-                    <a href="?page={{ swap_posts.next_page_number }}" class="pagination-button">下一頁</a>
-                    {% endif %}
-            </div>
+            {% if swap_posts.has_next %}
+            <a href="?type={{ post_type }}&page={{ swap_posts.next_page_number }}" class="pagination-button">下一頁</a>
+            {% endif %}
+        </div>
     </div>
-    {% endif %}
 </div>
 
 <script>

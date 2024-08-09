@@ -33,6 +33,10 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('activation_success/', views.activate_success, name='activation_success'),
     path('activation_invalid/', views.activate_invalid, name='activation_invalid'),
+
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/<uidb64>/<token>/', views.reset_password_confirm, name='reset_password_confirm'),
+    
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),  
     path('add_swap_post/', views.add_swap_post, name='add_swap_post'),

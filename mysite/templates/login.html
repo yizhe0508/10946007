@@ -39,10 +39,11 @@
                 </div>
             -->
                 <div class="forget-password">
-                    <a href="{% url 'register' %}" class="forget-password-link">忘記密碼？</a>
+                    <a href="{% url 'forgot_password' %}" class="forget-password-link">忘記密碼？</a>
                 </div>
             </div>
         </div>
+        <!--
         <div class="error-message-container">
             {% if messages %}
             <div class="error-message">
@@ -52,6 +53,7 @@
             </div>
             {% endif %}
         </div>
+        -->
     </form>
 </div>
 {% endblock %}

@@ -108,22 +108,39 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        var lastMessageId = parseInt('{{ messages.last.id|default:0 }}', 10);
+        var lastMessageId = parseInt('{{ swap_messages.last.id|default:0 }}', 10);
+
+        function formatDate(dateString) {
+            // 假設服務器返回的是 UTC 時間
+            const date = new Date(dateString + 'Z');  // 添加 'Z' 表示這是 UTC 時間
+            return date.toLocaleString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Taipei'  // 使用台北時區，請根據實際情況調整
+            }).replace(/\//g, '-')  // 將日期中的 '/' 替換為 '-'
+        }
 
         function updateMessages() {
             $.get('{% url "get_messages" post.id %}', { last_id: lastMessageId }, function (data) {
                 data.messages.forEach(function (message) {
-                    $('#message-list').append(
-                        '<div class="message">' +
-                        '<strong>' + message.sender + ':</strong> ' +
-                        message.content + ' ' +
-                        '<small>' + message.created_at + '</small>' +
-                        '</div>'
-                    );
-                    lastMessageId = message.id;
+                    // 確保僅添加新的消息
+                    if (message.id > lastMessageId) {
+                        $('#message-list').append(
+                            '<div class="message">' +
+                            '<strong>' + message.sender + ':</strong> ' +
+                            message.content + ' ' +
+                            '<small>' + formatDate(message.created_at) + '</small>' +
+                            '</div>'
+                        );
+                        lastMessageId = message.id;  // 更新最後消息ID
+                    }
                 });
-                // 滾動到最新訊息
-                $('#message-list').animate({ scrollTop: $('#message-list')[0].scrollHeight }, 'slow');
+
             });
         }
 
@@ -139,8 +156,10 @@
                 }, function (data) {
                     if (data.status === 'success') {
                         $('#message-input').val('');
-                        updateMessages();
-
+                        updateMessages();  // 發送新消息後立即更新
+                        
+                        // 滾動到最新訊息
+                        $('#message-list').animate({ scrollTop: $('#message-list')[0].scrollHeight }, 'slow');
                     }
                 });
             }

@@ -28,7 +28,7 @@ from django.db.models import Q
 
 
 def index(request):
-    swap_posts = SwapPost.objects.exclude(status__in=['COMPLETED', 'CANCELLED']).order_by('-updated_at', '-created_at')
+    swap_posts = SwapPost.objects.filter(status='WAITING').order_by('-updated_at', '-created_at')
     
     selected_game = request.GET.get('game')
     selected_server = request.GET.get('server')
@@ -36,7 +36,7 @@ def index(request):
     
     # 只有當用戶提交了搜索時才應用過濾器
     if 'search' in request.GET:
-        query = Q()
+        query = Q(status='WAITING')  # 確保在搜索時也只包含待交換的貼文
         if selected_game:
             query &= Q(game_id=int(selected_game))
         if selected_server:
@@ -63,7 +63,7 @@ def index(request):
     context = {
         'games': games,
         'servers': servers,
-        'swap_posts': swap_posts,
+        'swap_posts': page_obj,
         'selected_game': selected_game,
         'selected_server': selected_server,
         'item_name': item_name,
@@ -207,6 +207,74 @@ def logout_view(request):
     logout(request)  # 執行登出操作
     return redirect('index')  # 登出後重定向到首頁
 
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            
+            # 設置重設期限
+            reset_days = getattr(settings, 'PASSWORD_RESET_TIMEOUT_DAYS', 1)  # 默認 1 天
+            
+            # 發送重設密碼郵件
+            current_site = get_current_site(request)
+            mail_subject = '【虛擬寶物交換網】請重設您的密碼'
+            
+            # HTML message
+            message_html = render_to_string('reset_password_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+                'reset_days': reset_days,
+            })
+
+            message_plain = render_to_string('reset_password_email.txt', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+                'reset_days': reset_days,
+            })            
+
+            email_message = EmailMultiAlternatives(
+                subject=mail_subject,
+                body=message_plain,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[email],
+            )
+            email_message.attach_alternative(message_html, "text/html")
+            email_message.send(fail_silently=False)
+            
+            messages.success(request, '重設密碼的郵件已發送，請查看您的信箱。')
+            return redirect('login')
+        except User.DoesNotExist:
+            messages.error(request, '該郵箱地址不存在。')
+    return render(request, 'forgot_password.html')
+
+def reset_password_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('confirm_password')
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, '密碼已成功重設，請使用新密碼登入。')
+                return redirect('login')
+            else:
+                messages.error(request, '兩次輸入的密碼不一致。')
+        return render(request, 'reset_password_confirm.html')
+    else:
+        messages.error(request, '密碼重設連結無效或已過期。')
+        return redirect('login')
+
 @login_required
 def add_swap_post(request):
     if request.method == 'POST':
@@ -286,18 +354,12 @@ def get_servers(request):
 
 @login_required
 def swap_manage(request):
-    # 獲取用戶創建的交換貼文
-    user_posts = SwapPost.objects.filter(user=request.user).order_by('-updated_at', '-created_at')
-    
-    # 獲取用戶作為交換者參與的交換貼文
-    swapper_posts = SwapPost.objects.filter(swapper=request.user).order_by('-updated_at', '-created_at')
-    
-    post_type = request.GET.get('type', 'my_posts')  # 預設顯示用戶自己的貼文
+    post_type = request.GET.get('type', 'my_posts')  # 默認顯示用戶自己的貼文
     
     if post_type == 'participated_posts':
-        all_posts = swapper_posts
+        all_posts = SwapPost.objects.filter(swapper=request.user).order_by('-updated_at', '-created_at')
     else:
-        all_posts = user_posts
+        all_posts = SwapPost.objects.filter(user=request.user).order_by('-updated_at', '-created_at')
     
     paginator = Paginator(all_posts, 5)  # 每頁顯示 5 個貼文
     page_number = request.GET.get('page')
