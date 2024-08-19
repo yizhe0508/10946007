@@ -1,0 +1,29 @@
+# 環境變量文件
+.env
+
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+
+# 媒體文件
+/media/
+
+# 靜態文件收集目錄
+/staticfiles/
+
+# VS Code
+.vscode/
+
+# MySQL 數據庫轉儲文件
+*.sql
+*.sql.gz
+
+# Python 虛擬環境（如果您在未來決定在項目目錄中創建）
+venv/
+env/

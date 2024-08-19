@@ -77,18 +77,19 @@
 .search-option {
     background: var(--secondary, #f5f5f5);
     border-radius: 4px;
-    padding: 7px 12px 7px 20px;
+    padding: 7px 12px 7px 0px;
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-shrink: 0;
     position: relative;
+ 
 }
 
 /* 將下拉圖示修改為自定義的圖片 */
-.search-option-select {
+.select-game, .select-server {
     border: none;
     background: var(--secondary, #f5f5f5);
     /* 隱藏原始的下拉圖示 */
@@ -99,9 +100,17 @@
     /* 添加自定義的圖片 */
     background-image: url("/static/images/dropdown-icon.png");
     background-repeat: no-repeat;
-    background-position: right center;
-    /* 添加一些 padding，使得文字不會和圖片重疊 */
+    background-position: right center;  /* 添加一些 padding，使得文字不會和圖片重疊 */
     padding-right: 34px;
+    padding-left: 8px;
+    width: 180px;  /* 固定寬度 */
+    cursor: pointer;
+}
+
+.select-game {
+    width: 250px;
+    max-height: 200px;/* 設置最大高度 */
+    overflow-y: auto; /* 啟用垂直滾動條 */
 }
 
 .search-option-input {
@@ -109,7 +118,7 @@
     background: var(--secondary, #f5f5f5);
     position: relative;
     padding-right: 34px;
-    width: 170px;
+    width: 200px;
     height: 24px;
 }
 
@@ -374,37 +383,33 @@
     border: none;
     background: var(--button1, #52d880);
     border-radius: 4px;
-    padding: 10px 48px 10px 48px;
+    width: 170px;
+    /* 固定寬度 */
+    height: 45px;
+    /* 固定高度 */
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* 隱藏超出部分 */
     position: relative;
 }
 
 .swap-button:hover {
     background: var(--hover-button1, #a9ebbf);
-    border-radius: 4px;
-    padding: 10px 48px 10px 48px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    position: relative;
 }
 
 .swap-button-label {
     color: var(--text, #fafafa);
-    text-align: left;
+    text-align: center;
+    /* 調整文字對齊 */
     font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
     font-size: var(--title-16px-medium-font-size, 16px);
     line-height: var(--title-16px-medium-line-height, 24px);
     font-weight: var(--title-16px-medium-font-weight, 500);
-    position: relative;
     text-decoration: none;
+    white-space: nowrap;
+    /* 防止文字換行 */
 }
 
 .swap-info-container {

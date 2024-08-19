@@ -11,17 +11,36 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{% static 'css/vars.css' %}">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+    
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .content-wrapper {
+            flex: 1 0 auto;
+        }
+    
+        .footer {
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 
 <body>
-    {% include 'header.html' %}
-
-    {% block content %}
-    {% endblock %}
-
+    <div class="content-wrapper">
+        {% include 'header.html' %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
     {% include 'footer.html' %}
-
-    
 </body>
 
 </html>

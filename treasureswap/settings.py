@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
+# 加載.env文件中的環境變量
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,13 +26,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9=7aua43wio9yob&pe_$lk5zymt((l@#-%7uk_0%#e^uo%*^9r'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 正式設定
+# DEBUG = os.getenv('DEBUG') == 'True'
+
+
 ALLOWED_HOSTS = ['*']
 
+# 正式設定
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
@@ -82,11 +91,11 @@ WSGI_APPLICATION = 'treasureswap.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'virtual_treasure_swap_db',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',  
-        'PORT': '3306',  
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -103,15 +112,15 @@ AUTHENTICATION_BACKENDS = [
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '10946007@ntub.edu.tw'
-EMAIL_HOST_PASSWORD = 'srszjcimazjhpsif'  # 應用程式密碼
-DEFAULT_FROM_EMAIL = '10946007@ntub.edu.tw'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
-# 設置帳戶驗證的有效期限（以天為單位）
-ACCOUNT_ACTIVATION_DAYS = 7  # 可以根據需要調整為 1、2、7 等天數
+# 設置帳戶驗證的有效期限
+ACCOUNT_ACTIVATION_DAYS = int(os.getenv('ACCOUNT_ACTIVATION_DAYS', 7))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

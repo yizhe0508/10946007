@@ -17,14 +17,14 @@
                     <div class="search-indicator"></div>
                 </div>
                 <div class="search-label">搜尋物品</div>
-            </div>
+            </div>  
         </div>
    
         <form action="{% url 'index' %}" method="GET" id="search-form">
             <div class="search-options">
                 <div class="search-option">
-                    <select class="search-option-select" name="game" id="game-select">
-                        <option value="">選擇遊戲</option>
+                    <select class="select-game" name="game" id="game-select">
+                        <option value="" disabled selected>選擇遊戲</option>
                         {% for game in games %}
                         <option value="{{ game.id }}" {% if game.id|stringformat:"s" == selected_game %}selected{% endif %}>
                             {{ game.name }}
@@ -33,7 +33,7 @@
                     </select>
                 </div>
                 <div class="search-option">
-                    <select class="search-option-select" name="server" id="server-select">
+                    <select class="select-server" name="server" id="server-select">
                         <option value="">伺服器　</option>
                         {% for server in servers %}
                         <option value="{{ server.id }}" {% if server.id|stringformat:"s" == selected_server %}selected{% endif %}>
@@ -104,16 +104,8 @@
                             {% if user.is_authenticated %}
                                 {% if post.status == 'WAITING' and post.user != user %}
                                     <a href="{% url 'active_swap' post.id %}" class="swap-button-label">可交換</a>
-                                {% elif post.status == 'IN_PROGRESS' or post.status == 'PENDING_COMPLETION' or post.status == 'PENDING_CANCELLATION' %}
-                                    {% if user == post.user or user == post.swapper %}                                    
-                                        <a href="{% url 'active_swap' post.id %}" class="swap-button-label">返回交換</a>
-                                    {% else %}
-                                        <span class="swap-button-label disabled">交換進行中</span>
-                                    {% endif %}    
                                 {% elif post.user == user %}
                                     <span class="swap-button-label disabled">這是您的貼文</span>
-                                {% else %}
-                                    <span class="swap-button-label disabled">交換進行中</span>
                                 {% endif %}
                             {% else %}
                                 <a href="{% url 'login' %}" class="swap-button-label">可交換</a>

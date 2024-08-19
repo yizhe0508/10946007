@@ -135,6 +135,7 @@
     background-position: right center;
     /* 添加一些 padding，使得文字不會和圖片重疊 */
     padding-right: 34px;
+
 }
 
 .dropdown-content {
@@ -148,6 +149,7 @@
     bottom: 0%;
     top: 0%;
     overflow: hidden;
+
 }
 
 .form-field-img {
