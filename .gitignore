@@ -27,3 +27,6 @@ db.sqlite3-journal
 # Python 虛擬環境（如果您在未來決定在項目目錄中創建）
 venv/
 env/
+    
+# 忽略備份目錄
+/backup/
