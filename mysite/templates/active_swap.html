@@ -64,7 +64,7 @@
 </div>
 
 <div class="swap-active">
-    {% if post.status == 'IN_PROGRESS' or post.status == 'PENDING_COMPLETION' %}
+    {% if post.status == 'IN_PROGRESS' %}
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="action" value="cancel">
@@ -72,9 +72,7 @@
             <span class="active-button-text">取消交換</span>
         </button>
     </form>
-    {% endif %}
-
-    {% if post.status == 'IN_PROGRESS' and request.user == post.user %}
+    {% if request.user == post.user %}
     <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="action" value="complete">
@@ -82,17 +80,31 @@
             <span class="active-button-text">完成交換</span>
         </button>
     </form>
-    {% elif post.status == 'PENDING_COMPLETION' and request.user == post.swapper %}
-    <form method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="action" value="complete">
-        <button type="submit" class="complete-button">
-            <span class="active-button-text">確認完成</span>
-        </button>
-    </form>
+    {% endif %}
+
+    {% elif post.status == 'PENDING_COMPLETION' %}
+        {% if request.user == post.user %}
+        <p>等待對方確認完成...</p>
+        {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="cancel">
+            <button type="submit" class="cancel-button">
+                <span class="active-button-text">取消交換</span>
+            </button>
+        </form>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="complete">
+            <button type="submit" class="complete-button">
+                <span class="active-button-text">確認完成</span>
+            </button>
+        </form>
+        {% endif %}
+
     {% elif post.status == 'PENDING_CANCELLATION' %}
         {% if is_cancellation_initiator %}
-            <p>等待對方確認取消</p>
+            <p>等待對方確認取消...</p>
         {% elif can_confirm_cancellation %}
             <form method="POST">
                 {% csrf_token %}

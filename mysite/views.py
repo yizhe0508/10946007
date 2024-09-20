@@ -475,13 +475,15 @@ def edit_swap_post(request, post_id):
 @login_required
 def active_swap(request, post_id):
     post = get_object_or_404(SwapPost, id=post_id)
-    
+
+    # 檢查是否是從等待狀態進入    
     if post.status == 'WAITING' and request.user != post.user:
         post.status = 'IN_PROGRESS'
         post.swapper = request.user
         post.save()
         messages.success(request, '您已成功加入交换!')    
 
+    # 確保只有有效的使用者可以訪問
     if request.user != post.user and request.user != post.swapper:
         django_messages.error(request, '您沒有權限訪問此頁面。')
         return redirect('index')
@@ -501,18 +503,43 @@ def active_swap(request, post_id):
                 django_messages.success(request, '交換已完成。')
                 return redirect('index')
         
+    # 處理 POST 請求
     if request.method == 'POST':
         action = request.POST.get('action')
         
-        if action == 'cancel':
+        if action == 'complete':
+            if post.status == 'IN_PROGRESS' and request.user == post.user:
+                post.status = 'PENDING_COMPLETION'
+                post.confirmation_deadline = timezone.now() + timedelta(hours=24)
+                post.save()
+                messages.success(request, '等待交換者確認完成。')
+            elif post.status == 'PENDING_COMPLETION' and request.user == post.swapper:
+                post.status = 'COMPLETED'
+                post.save()
+                messages.success(request, '交換已完成。')
+                return redirect('index')
+        
+        elif action == 'cancel':
             if post.status == 'IN_PROGRESS':
                 post.status = 'PENDING_CANCELLATION'
                 post.cancellation_initiator = request.user
                 post.confirmation_deadline = timezone.now() + timedelta(hours=24)
                 post.save()
                 messages.success(request, '等待對方確認取消。')
+                
+            elif post.status == 'PENDING_COMPLETION':
+                # 如果貼文者已完成交換，參與者發起取消請求
+                if request.user == post.swapper:
+                    post.status = 'PENDING_CANCELLATION'
+                    post.cancellation_initiator = request.user
+                    post.confirmation_deadline = timezone.now() + timedelta(hours=24)
+                    post.save()
+                    messages.success(request, '等待對方確認取消，因為交換者已發起取消請求。')
+                else:
+                    messages.error(request, '交換已進入完成階段，無法取消。')
+            
             elif post.status == 'PENDING_CANCELLATION':
-                # 檢查是否是另一方（非發起取消的一方）在確認
+                # 檢查是否是非發起者在確認取消
                 if request.user != post.cancellation_initiator:
                     post.status = 'CANCELLED'
                     post.save()
