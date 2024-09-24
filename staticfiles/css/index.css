@@ -77,18 +77,19 @@
 .search-option {
     background: var(--secondary, #f5f5f5);
     border-radius: 4px;
-    padding: 7px 12px 7px 20px;
+    padding: 7px 12px 7px 0px;
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-shrink: 0;
     position: relative;
+ 
 }
 
 /* 將下拉圖示修改為自定義的圖片 */
-.search-option-select {
+.select-game, .select-server {
     border: none;
     background: var(--secondary, #f5f5f5);
     /* 隱藏原始的下拉圖示 */
@@ -99,9 +100,17 @@
     /* 添加自定義的圖片 */
     background-image: url("/static/images/dropdown-icon.png");
     background-repeat: no-repeat;
-    background-position: right center;
-    /* 添加一些 padding，使得文字不會和圖片重疊 */
+    background-position: right center;  /* 添加一些 padding，使得文字不會和圖片重疊 */
     padding-right: 34px;
+    padding-left: 8px;
+    width: 180px;  /* 固定寬度 */
+    cursor: pointer;
+}
+
+.select-game {
+    width: 250px;
+    max-height: 200px;/* 設置最大高度 */
+    overflow-y: auto; /* 啟用垂直滾動條 */
 }
 
 .search-option-input {
@@ -109,7 +118,7 @@
     background: var(--secondary, #f5f5f5);
     position: relative;
     padding-right: 34px;
-    width: 170px;
+    width: 200px;
     height: 24px;
 }
 
@@ -221,40 +230,26 @@
     height: 300px;
     position: relative;
     overflow: hidden;
-}
-
-.item-view-icon {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: absolute;
-    right: 12px;
-    top: 12px;
+    justify-content: center;
+    align-items: center;
 }
 
 .item-image-frame {
-    width: 190px;
-    height: 180px;
-    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    left: calc(50% - 95px);
-    top: calc(50% - 90px);
     overflow: hidden;
 }
 
 .item-image {
-    width: 190px;
-    /* 設定圖片的寬度 */
-    height: 180px;
-    /* 設定圖片的高度 */
-    object-fit: cover;
-    /* 確保圖片按比例填滿框而不變形 */
-    border-radius: 8px;
-    /* 可選：設置圓角 */
-    border: 1px solid #ddd;
-    /* 可選：設置邊框 */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    width: auto;
+    height: auto;
 }
 
 .item-details-container {
@@ -266,6 +261,17 @@
     flex-shrink: 0;
     width: 400px;
     position: relative;
+}
+
+.item-view-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    right: 12px;
+    top: 12px;
 }
 
 .game-name {
@@ -377,36 +383,33 @@
     border: none;
     background: var(--button1, #52d880);
     border-radius: 4px;
-    padding: 10px 48px 10px 48px;
+    width: 170px;
+    /* 固定寬度 */
+    height: 45px;
+    /* 固定高度 */
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* 隱藏超出部分 */
     position: relative;
 }
 
 .swap-button:hover {
     background: var(--hover-button1, #a9ebbf);
-    border-radius: 4px;
-    padding: 10px 48px 10px 48px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    position: relative;
 }
 
 .swap-button-label {
     color: var(--text, #fafafa);
-    text-align: left;
+    text-align: center;
+    /* 調整文字對齊 */
     font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
     font-size: var(--title-16px-medium-font-size, 16px);
     line-height: var(--title-16px-medium-line-height, 24px);
     font-weight: var(--title-16px-medium-font-weight, 500);
-    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+    /* 防止文字換行 */
 }
 
 .swap-info-container {
@@ -540,14 +543,11 @@
     position: relative;
     color: var(--text2, #000000);
     text-align: center;
-    font-family: var(--heading-24px-semibold-font-family,
-            "Inter-SemiBold",
-            sans-serif);
+    font-family: var(--heading-24px-semibold-font-family, "Inter-SemiBold", sans-serif);
     font-size: var(--heading-24px-semibold-font-size, 24px);
     line-height: var(--heading-24px-semibold-line-height, 24px);
     letter-spacing: var(--heading-24px-semibold-letter-spacing, 0.03em);
     font-weight: var(--heading-24px-semibold-font-weight, 600);
-
 }
 
 .change-page {
@@ -582,4 +582,51 @@
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+.pagination-button.current {
+    background: var(--hover-button2, #a0bce0);
+}
+
+/* 放大圖片的樣式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+}
+
+.modal .close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
 }

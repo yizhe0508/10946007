@@ -1,6 +1,7 @@
 /* 404.css */
 ._404-container * {
     box-sizing: border-box;
+
 }
 
 ._404-container {
@@ -8,8 +9,9 @@
     flex-direction: column;
     gap: 40px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     position: relative;
+    height: 80vh;
 }
 
 ._404-not-found {
@@ -47,6 +49,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    border: none;
 }
 
 .back-home-button-lable {
@@ -60,3 +63,4 @@
     font-weight: var(--title-16px-medium-font-weight, 500);
     position: relative;
 }
+

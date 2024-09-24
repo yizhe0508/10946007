@@ -135,6 +135,7 @@
     background-position: right center;
     /* 添加一些 padding，使得文字不會和圖片重疊 */
     padding-right: 34px;
+
 }
 
 .dropdown-content {
@@ -148,6 +149,7 @@
     bottom: 0%;
     top: 0%;
     overflow: hidden;
+
 }
 
 .form-field-img {
@@ -186,13 +188,39 @@
     border-radius: 4px;
     flex-shrink: 0;
     width: 200px;
-    height: 150px;
-    background-size: cover;
-    /* 讓背景圖片覆蓋整個元素 */
-    background-position: center;
-    /* 將背景圖片置於元素中心 */
+    height: 300px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-img::before {
+    content: '\1F4F7';
+    /* 相機表情符號 */
+    font-size: 40px;
+    color: #ccc;
+}
+
+.upload-img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 這將確保圖片完整顯示，不會被裁剪 */
+    display: none;
+    /* 初始隱藏 */
+}
+
+.upload-img.has-image::before {
+    display: none;
+}
+
+.upload-img.has-image img {
+    display: block;
 }
 
 .form-swap-group {
