@@ -43,17 +43,20 @@
                 </div>
             </div>
         </div>
-        <!--
+
+        <!-- 顯示錯誤訊息 -->
         <div class="error-message-container">
             {% if messages %}
             <div class="error-message">
                 {% for message in messages %}
-                <p>{{ message }}</p>
+                    {% if 'login_message' in message.tags %}
+                        <p>{{ message }}</p>
+                    {% endif %}    
                 {% endfor %}
             </div>
             {% endif %}
         </div>
-        -->
+
     </form>
 </div>
 {% endblock %}

@@ -106,10 +106,6 @@ AUTHENTICATION_BACKENDS = [
     'mysite.backends.EmailOrUsernameModelBackend',
 ]
 
-# 信箱驗證測試
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#DEFAULT_FROM_EMAIL = '10946007@ntub.edu.tw'  # 這是你用來發送郵件的地址
-
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')

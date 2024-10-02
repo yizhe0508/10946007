@@ -19,7 +19,11 @@
         <div class="hello">
             您好！
             {% if user.is_authenticated %}
-            {{ user.username }}，歡迎來到虛擬寶物交換網。
+                {% if user.nickname is not none %}
+                    {{ user.nickname }}，歡迎來到虛擬寶物交換網。
+                {% else %}
+                    {{ user.username }}，歡迎來到虛擬寶物交換網。
+                {% endif %}
             {% else %}
             歡迎來到虛擬寶物交換網。
             {% endif %}

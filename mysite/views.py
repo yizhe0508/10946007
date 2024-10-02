@@ -83,22 +83,22 @@ def register(request):
 
         # 後端驗證
         if not username:
-            error = '請輸入您的帳號'
-            return render(request, 'register.html', {'error': error})
+            messages.error(request, '請輸入您的帳號', extra_tags='register_message')
+            return render(request, 'register.html')
 
         try:
             validate_email(email)
         except ValidationError:
-            error = '請輸入有效的信箱地址'
-            return render(request, 'register.html', {'error': error})
+            messages.error(request, '請輸入有效的信箱地址!', extra_tags='register_message')
+            return render(request, 'register.html')
 
         if not password1 or not password2:
-            error = '請輸入您的密碼'
-            return render(request, 'register.html', {'error': error})
+            messages.error(request, '請輸入您的密碼', extra_tags='register_message')
+            return render(request, 'register.html')
 
         if password1 != password2:
-            error = '您輸入的密碼不一致'
-            return render(request, 'register.html', {'error': error})
+            messages.error(request, '您輸入的密碼不一致', extra_tags='register_message')
+            return render(request, 'register.html')
 
         try:
             user = User.objects.create_user(username=username, email=email, password=password1)
@@ -142,9 +142,8 @@ def register(request):
         
             return redirect('register_success')
         except IntegrityError:
-            error = '該帳號已經存在'
-            logger.error('IntegrityError: %s', error)
-            return render(request, 'register.html', {'error': error})
+            messages.error(request, '該帳號已經存在!', extra_tags='register_message')
+            return render(request, 'register.html')
 
     return render(request, 'register.html')
 
@@ -178,12 +177,9 @@ def login_view(request):
         username_or_email = request.POST.get('username_or_email')
         password = request.POST.get('password')
 
-        if not username_or_email:
-            messages.error(request, 'Username or Email must be filled out')
-            return render(request, 'login.html')
-
-        if not password:
-            messages.error(request, 'Password must be filled out')
+        # 確保帳號或信箱與密碼非空值
+        if not username_or_email or not password:
+            messages.error(request, '請填寫帳號或信箱及密碼。', extra_tags='login_message')
             return render(request, 'login.html')
 
         # 嘗試用使用者名稱或電子郵件登入
@@ -197,9 +193,9 @@ def login_view(request):
                 login(request, user)
                 return redirect('index')  # 根據需要重定向到你的首頁或其他頁面
             else:
-                messages.error(request, '帳號尚未啟用，請檢查您的郵件進行驗證。')
+                messages.error(request, '帳號尚未啟用，請檢查您的郵件並進行驗證。', extra_tags='login_message')
         else:
-            messages.error(request, '無效的帳號或密碼，請重新輸入。')
+            messages.error(request, '無效的帳號或密碼，請重新輸入。', extra_tags='login_message')
 
     return render(request, 'login.html')
 
@@ -249,7 +245,7 @@ def forgot_password(request):
             messages.success(request, '重設密碼的郵件已發送，請查看您的信箱。')
             return redirect('login')
         except User.DoesNotExist:
-            messages.error(request, '該郵箱地址不存在。')
+            messages.error(request, '該信箱地址不存在。')
     return render(request, 'forgot_password.html')
 
 def reset_password_confirm(request, uidb64, token):
@@ -664,16 +660,16 @@ def update_profile(request):
                 success_messages.append('請檢查您的新信箱進行驗證！')
 
             except ValidationError:
-                messages.error(request, '請輸入有效的信箱地址！')
+                messages.error(request, '請輸入有效的信箱地址！', extra_tags='account_message')
                 return render(request, 'account.html')
 
         # 僅在密碼實際改變時添加成功消息
         if current_password and new_password and confirm_new_password:
             if not user.check_password(current_password):
-                messages.error(request, '目前密碼不正確！')
+                messages.error(request, '目前密碼不正確！', extra_tags='account_message')
                 return render(request, 'account.html')
             if new_password != confirm_new_password:
-                messages.error(request, '新密碼不一致！')
+                messages.error(request, '新密碼不一致！', extra_tags='account_message')
                 return render(request, 'account.html')
             user.set_password(new_password)
             update_session_auth_hash(request, user)  # 更新 session 以防登出
@@ -682,7 +678,7 @@ def update_profile(request):
         user.save()
 
         for message in success_messages:
-            messages.success(request, message)
+            messages.success(request, message, extra_tags='account_message')
 
         return redirect('account')  # 假設 'account' 是顯示帳號資料的頁面
 

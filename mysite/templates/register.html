@@ -21,16 +21,16 @@
         </div>
         <div class="registration-fields">
             <div class="registration-field">
-                <input type="text" class="field-input" name="username" placeholder="帳號" />
+                <input type="text" class="field-input" name="username" placeholder="帳號" required/>
             </div>
             <div class="registration-field">
-                <input type="text" class="field-input" name="email" placeholder="信箱" />
+                <input type="email" class="field-input" name="email" placeholder="信箱" required/>
             </div>
             <div class="registration-field">
-                <input type="password" class="field-input" name="password1" placeholder="密碼" />
+                <input type="password" class="field-input" name="password1" placeholder="密碼" required/>
             </div>
             <div class="registration-field">
-                <input type="password" class="field-input" name="password2" placeholder="再次輸入密碼" />
+                <input type="password" class="field-input" name="password2" placeholder="再次輸入密碼" required/>
             </div>
         </div>
         <div class="registration-actions">
@@ -52,11 +52,19 @@
                         <a href="{% url 'login' %}" class="login-link">登入</a>
                     </div>
                 </div>
+
+                <!--錯誤訊息顯示-->
+                <div class="error-message-container">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if 'register_message' in message.tags %}
+                                <div class="error-message">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
         </div>
-        {% if error %}
-        <div class="error-message">{{ error }}</div>
-        {% endif %}
     </form>
 </div>
 
