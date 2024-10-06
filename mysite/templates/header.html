@@ -33,7 +33,9 @@
 
 <nav class="navbar">
     <div class="container-fluid centered-content">
-        <a class="navbar-brand" href="#">虛擬寶物交換網</a>
+        <a class="navbar-brand" href="{% url 'index' %}" title="回到首頁">
+            <img src="{% static 'images/logo.png' %}" alt="虛擬寶物交換網" class="brand-logo">
+        </a>
         <div class="navbar-links">
             <a href="{% url 'index' %}" class="nav-link {% if request.path == index_url %}active{% endif %}">首頁</a>
             
