@@ -72,39 +72,62 @@
                     {% if post.status == 'IN_PROGRESS' %}
                     <a href="{% url 'active_swap' post.id %}" class="swap-button-label">{{ post.get_status_display }}</a>
                     {% elif post.status == 'PENDING_COMPLETION' %}
-                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">等待確認完成</a>
+                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">待確認完成</a>
                     {% elif post.status == 'PENDING_CANCELLATION' %}
-                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">等待確認取消</a>
+                    <a href="{% url 'active_swap' post.id %}" class="swap-button-label">待確認取消</a>
                     {% else %}
                     <span class="swap-button-label">{{ post.get_status_display }}</span>
                     {% endif %}
                 </div>
             </div>
         </div>
-        <div class="swap-info-container">
-            <div class="separator-line"></div>
-            <div class="swap-time-location-container">
-                <div class="swap-time">
-                    交換時間
-                    <br />
-                    {{ post.swap_time|date:"Y/m/d H:i" }}
-                </div>
-                <div class="swap-location">
-                    交換地點
-                    <br />
-                    {{ post.swap_location }}
+        
+        <div class="separator-line"></div>
+        
+        <!-- 交換貼文右邊部分 -->
+        <div class="swap-right-section">
+            <!-- 上次更新時間 -->
+            <div class="update-time">
+                <span class="update-label">上次更新時間</span>
+                <div class="update-content">
+                    <span id="updated_at_{{ post.id }}">{{ post.updated_at|date:"Y/m/d H:i" }}</span>
+                    {% if post.status == 'WAITING' and post_type == 'my_posts' %}
+                    <img class="update-icon" src="{% static '/images/update-icon.png' %}" alt="Update"
+                        onclick="updatePostTime('{{ post.id }}')">
+                    {% endif %}
                 </div>
             </div>
-            <div class="swap-server-character-container">
-                <div class="swap-server">
-                    伺服器
-                    <br />
-                    {{ post.server.name }}
+            <!-- 交換人時地資訊 -->
+            <div class="swap-info-container">
+                <div class="swap-time-location-container">
+                    <!-- 交換時間 -->
+                    <div class="swap-time">
+                        交換時間
+                        <br />
+                        {{ post.swap_time|date:"Y/m/d H:i" }}
+                    </div>
+        
+                    <!-- 交換地點 -->
+                    <div class="swap-location">
+                        交換地點
+                        <br />
+                        {{ post.swap_location }}
+                    </div>
                 </div>
-                <div class="swap-character">
-                    交換角色
-                    <br />
-                    {{ post.role_name }}
+                <div class="swap-server-character-container">
+                    <!-- 交換伺服器 -->
+                    <div class="swap-server">
+                        伺服器
+                        <br />
+                        {{ post.server.name }}
+                    </div>
+        
+                    <!-- 交換角色 -->
+                    <div class="swap-character">
+                        交換角色
+                        <br />
+                        {{ post.role_name }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,7 +144,7 @@
     <div class="swap-divider"></div>
     {% endfor %}
 
-    <!-- 在分頁部分 -->
+    <!-- 分頁 -->
     <div class="pagination">
         <div class="current-page">
             第 <span id="page-number">{{ swap_posts.number }}</span> 頁
@@ -146,6 +169,7 @@
     </div>
 </div>
 
+<!-- 刪除貼文 -->
 <script>
     function deletePost(postId) {
         if (confirm('確定要刪除這個交換貼文嗎？')) {
@@ -184,6 +208,7 @@
     }
 </script>
 
+<!-- 切換貼文者與參與者頁面 -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const myPostsButton = document.getElementById('my-posts-button');
@@ -196,8 +221,8 @@
         participatedPostsButton.addEventListener('click', function () {
             window.location.href = '{% url "swap_manage" %}?type=participated_posts';
         });
-
-        // 設置活躍按鈕
+        
+        // 根據頁面設置按鈕
         if ('{{ post_type }}' === 'participated_posts') {
             participatedPostsButton.classList.add('active');
             myPostsButton.classList.remove('active');
@@ -206,6 +231,47 @@
             participatedPostsButton.classList.remove('active');
         }
     });
+</script>
+
+<script>
+    function updatePostTime(postId) {
+        fetch(`/update_post_time/${postId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const element = document.getElementById(`updated_at_${postId}`);
+                    if (element) {
+                        // 更新為後端返回的格式化時間
+                        element.textContent = data.updated_at;
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+
+    // 獲取 CSRF Token 的函數
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 </script>
 
 {% endblock %}

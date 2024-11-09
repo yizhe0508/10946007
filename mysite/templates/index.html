@@ -113,30 +113,49 @@
                     </button>
                 </div>
             </div>
-            <div class="swap-info-container">
-                <div class="separator-line"></div>
-                <div class="swap-time-location-container">
-                    <div class="swap-time">
-                        交換時間
-                        <br />
-                        {{ post.swap_time|date:"Y/m/d H:i" }}
-                    </div>
-                    <div class="swap-location">
-                        交換地點
-                        <br />
-                        {{ post.swap_location }}
-                    </div>
+
+            <!-- 分隔線-->
+            <div class="separator-line"></div>
+
+            <!-- 交換貼文右邊部分 -->
+            <div class="swap-right-section">
+                <!-- 上次更新時間 -->
+                <div class="update-time">
+                    上次更新時間
+                    <br />
+                    {{ post.updated_at|date:"Y/m/d H:i" }}
                 </div>
-                <div class="swap-server-character-container">
-                    <div class="swap-server">
-                        伺服器
-                        <br />
-                        {{ post.server.name }}
+                <!-- 交換人時地資訊 -->
+                <div class="swap-info-container">
+                    <div class="swap-time-location-container">
+                        <!-- 交換時間 -->
+                        <div class="swap-time">
+                            交換時間
+                            <br />
+                            {{ post.swap_time|date:"Y/m/d H:i" }}
+                        </div>
+
+                        <!-- 交換地點 -->
+                        <div class="swap-location">
+                            交換地點
+                            <br />
+                            {{ post.swap_location }}
+                        </div>
                     </div>
-                    <div class="swap-character">
-                        交換角色
-                        <br />
-                        {{ post.role_name }}
+                    <div class="swap-server-character-container">
+                        <!-- 交換伺服器 -->
+                        <div class="swap-server">
+                            伺服器
+                            <br />
+                            {{ post.server.name }}
+                        </div>
+
+                        <!-- 交換角色 -->
+                        <div class="swap-character">
+                            交換角色
+                            <br />
+                            {{ post.role_name }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,7 +166,7 @@
         {% endfor %}
 
 
-        <!-- 換頁 -->
+        <!-- 分頁 -->
         {% if swap_posts.paginator.num_pages > 1 %}
         <div class="pagination">
             <div class="current-page">第 <span id="page-number">{{ swap_posts.number }}</span> 頁</div>

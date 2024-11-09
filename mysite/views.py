@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from venv import logger
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -350,7 +349,7 @@ def get_servers(request):
 
 @login_required
 def swap_manage(request):
-    post_type = request.GET.get('type', 'my_posts')  # 默認顯示用戶自己的貼文
+    post_type = request.GET.get('type', 'my_posts')  # 默認顯示使用者自己的貼文
     
     if post_type == 'participated_posts':
         all_posts = SwapPost.objects.filter(swapper=request.user).order_by('-updated_at', '-created_at')
@@ -467,6 +466,18 @@ def edit_swap_post(request, post_id):
             'servers': Server.objects.filter(game=post.game)
         }
         return render(request, 'edit_swap_post.html', context)
+
+@require_POST
+def update_post_time(request, post_id):
+    post = get_object_or_404(SwapPost, id=post_id)
+    post.updated_at = timezone.now()  # 更新為當前時間
+    post.save()
+    # 確保轉換為台北時區並格式化
+    formatted_time = timezone.localtime(post.updated_at).strftime("%Y/%m/%d %H:%M")
+    return JsonResponse({
+        'success': True,
+        'updated_at': formatted_time  # 回傳格式化的時間
+    })
 
 @login_required
 def active_swap(request, post_id):
