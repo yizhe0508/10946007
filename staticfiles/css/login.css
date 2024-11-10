@@ -175,3 +175,13 @@
     text-decoration: none;
 }
 
+.error-message-container {
+    min-height: 50px;
+    position: relative;
+    display: flex;
+    align-self: center;
+}
+
+.error-message {
+    color: red;
+}

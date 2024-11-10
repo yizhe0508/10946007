@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
 
     <title>{% block title %}虛擬寶物交換網{% endblock %}</title>
+    
+    <!-- GA4 追蹤代碼 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PQN7PDNPD"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-5PQN7PDNPD');  // 替換為測量 ID 
+    </script>
 
     <!-- 網站的 favicon 圖示設定 -->
     <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">

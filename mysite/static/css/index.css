@@ -97,7 +97,6 @@
     -moz-appearance: none;
     outline: none;
     appearance: none;
-    /* 添加自定義的圖片 */
     background-image: url("/static/images/dropdown-icon.png");
     background-repeat: no-repeat;
     background-position: right center;  /* 添加一些 padding，使得文字不會和圖片重疊 */
@@ -124,6 +123,7 @@
 
 .search-button {
     border: none;
+    background: var(--secondary, #f5f5f5);
 }
 
 .search-divider {

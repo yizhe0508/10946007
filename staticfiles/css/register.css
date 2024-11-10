@@ -37,7 +37,7 @@
 .registration-form {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
@@ -132,9 +132,11 @@
     flex-direction: column;
     gap: 16px;
     align-items: center;
+    align-self: center;
     justify-content: center;
     flex-shrink: 0;
     position: relative;
+    margin-top: 16px;
 }
 
 .register-button {
@@ -142,8 +144,7 @@
     border-radius: 4px;
     padding: 16px 122px 16px 122px;
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    flex-direction: row;    
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
@@ -251,6 +252,10 @@
     text-decoration: none;
 }
 
+.login-link:hover {
+    color: var(--button2, #315cea);
+}
+
 .login-link::after {
     content: "";
     position: absolute;
@@ -261,3 +266,11 @@
     border-bottom: solid 0.5px rgba(0, 0, 0, 0.5);
 }
 
+.error-message-container {    
+    min-height: 24px;
+    align-self: center;
+}
+
+.error-message {
+    color: red;
+}

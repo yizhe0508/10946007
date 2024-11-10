@@ -94,7 +94,7 @@
     background-color: #a0bce0;
 }
 
-/*------------swaplist CSS------------------*/
+/*------------交換貼文列表 CSS------------------*/
 .swaplist-container,
 .swaplist-container * {
     box-sizing: border-box;
@@ -293,7 +293,6 @@
     flex-shrink: 0;
     position: relative;
     margin-right: auto;
-    /* 將編輯按鈕推到左側 */
 }
 
 .edit-button:hover {
@@ -375,17 +374,6 @@
     background: var(--hover-button1, #a9ebbf);
 }
 
-.swap-info-container {
-    padding: 0px 2px 0px 0px;
-    display: flex;
-    flex-direction: row;
-    gap: 6px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-shrink: 0;
-    position: relative;
-}
-
 .separator-line {
     margin-left: 85px;
     background-color: #000;
@@ -398,10 +386,71 @@
     overflow: visible;
 }
 
+.swap-right-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-time {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.update-label {
+    color: #000000;
+    text-align: center;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    text-align: center;
+}
+
+.update-content {
+    color: #000000;
+    text-align: center;
+    font-family: var(--title-16px-medium-font-family, "Poppins-Medium", sans-serif);
+    font-size: var(--title-16px-medium-font-size, 16px);
+    line-height: var(--title-16px-medium-line-height, 24px);
+    font-weight: var(--title-16px-medium-font-weight, 500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* 設定圖示大小和點擊效果 */
+.update-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer; /* 設定為可點擊樣式 */
+    transition: transform 0.3s ease;
+}
+
+.update-icon:hover {
+    transform: scale(1.2);
+}
+
+.update-icon:active {
+    transform: scale(1);
+}
+
+.swap-info-container {
+    padding: 0px 2px 0px 2px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
 .swap-time-location-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 6px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
@@ -436,7 +485,7 @@
 .swap-server-character-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 6px;
     align-items: flex-start;
     justify-content: flex-start;
     flex-shrink: 0;
